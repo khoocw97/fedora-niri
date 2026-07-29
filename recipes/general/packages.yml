@@ -1,0 +1,53 @@
+modules:
+- type: dnf # personal
+  repos:
+    cleanup: true
+    copr:
+      - lizardbyte/stable
+      - lihaohong/yazi
+  install:
+    packages:
+      - sunshine
+      - fastfetch
+      - chezmoi
+      - kitty
+      - yazi
+#      - kdeconnectd
+      - wl-clipboard
+
+  remove:
+    packages:
+      - firefox
+      - firefox-langpacks
+
+- type: dnf # fcitx
+  repos:
+    cleanup: true
+  install:
+    packages:
+      - fcitx5
+      - fcitx5-chinese-addons
+      - fcitx5-rime
+      - fcitx5-gtk
+      - fcitx5-qt
+      - fcitx5-configtool
+
+- type: dnf # chinese font
+  repos:
+    cleanup: true
+  install:
+    install-weak-deps: false
+    packages:
+      - default-fonts-core-emoji
+      - default-fonts
+      - default-fonts-cjk-sans
+      - google-noto-color-emoji-fonts
+      - google-noto-emoji-fonts
+      - google-noto-sans-cjk-vf-fonts
+      - glibc-all-langpacks
+      - langpacks-zh_CN
+      - langpacks-zh_TW
+      - langpacks-core-zh_CN
+      - langpacks-core-zh_TW
+      - langpacks-fonts-zh_CN
+      - langpacks-fonts-zh_TW

@@ -1,0 +1,10 @@
+type: dnf
+install:
+  packages:
+    - niri
+    - noctalia
+  exclude:
+    - alacritty
+    - waybar
+
+

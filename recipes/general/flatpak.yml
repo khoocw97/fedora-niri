@@ -1,0 +1,19 @@
+type: default-flatpaks
+configurations:
+  - notify: false
+    scope: system
+    install:
+      - org.mozilla.firefox
+      - org.gnome.Loupe
+      - com.obsproject.Studio
+      - org.onlyoffice.desktopeditors
+      - com.github.tchx84.Flatseal
+      - it.mijorus.gearlever
+      - com.github.jeromerobert.pdfarranger
+      - org.localsend.localsend_app
+      - com.github.flxzt.rnote
+      - io.github.kolunmi.Bazaar
+      - com.github.xournalpp.xournalpp
+      - org.gnome.Showtime
+      - io.missioncenter.MissionCenter
+  - scope: user

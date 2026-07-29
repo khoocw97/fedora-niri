@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+curl -Lo /tmp/megacmd.rpm https://mega.nz/linux/repo/Fedora_44/x86_64/megacmd-Fedora_44.x86_64.rpm
+#rpm -Uvh --noscripts /tmp/megacmd.rpm
+dnf install -y --setopt=tsflags=noscripts /tmp/megacmd.rpm
+rm -f /tmp/megacmd.rpm

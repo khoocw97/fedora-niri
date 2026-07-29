@@ -1,0 +1,16 @@
+modules:
+  - type: script
+    scripts:
+      - setup-rime-build
+      - install-megacmd
+
+  - type: systemd
+    user:
+      enabled:
+        - mega-cmd-server
+#        - kdeconnectd
+
+  - type: justfiles
+    install: true
+
+
