@@ -5,7 +5,7 @@ modules:
     copr:
       - lizardbyte/stable
       - lihaohong/yazi
-      - helium-bin
+      - imput/helium
   install:
     packages:
       - helium-bin
