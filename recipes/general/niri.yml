@@ -7,4 +7,5 @@ install:
     - alacritty
     - waybar
     - mako
+    - swaylock
 

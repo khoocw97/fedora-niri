@@ -5,15 +5,16 @@ modules:
     copr:
       - lizardbyte/stable
       - lihaohong/yazi
+      - helium-bin
   install:
     packages:
+      - helium-bin
       - sunshine
       - fastfetch
       - chezmoi
       - kitty
       - yazi
 #      - kdeconnectd
-      - wl-clipboard
       - greetd
 
   remove:

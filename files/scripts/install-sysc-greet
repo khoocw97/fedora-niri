@@ -1,6 +1,46 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-curl -Lo /tmp/sysc-greet.rpm https://github.com/Nomadcxx/sysc-greet/releases/download/v1.1.9/sysc-greet-1.1.9-1.x86_64.rpm
-dnf install -y /tmp/sysc-greet.rpm
+curl -Lo /tmp/sysc-greet.rpm \
+    https://github.com/Nomadcxx/sysc-greet/releases/download/v1.1.9/sysc-greet-1.1.9-1.x86_64.rpm
+
+# Skip RPM scriptlet because uBlue build environment may not have
+# runtime-created groups (video/render/input)
+dnf install -y --setopt=tsflags=noscripts /tmp/sysc-greet.rpm
+
 rm -f /tmp/sysc-greet.rpm
+
+
+# Create system user manually
+if ! id greeter >/dev/null 2>&1; then
+    useradd -r \
+        -M \
+        -d /var/lib/greeter \
+        -s /usr/bin/nologin \
+        greeter
+fi
+
+
+# Add optional device access groups
+for group in video render input; do
+    if getent group "$group" >/dev/null 2>&1; then
+        usermod -aG "$group" greeter || true
+    fi
+done
+
+
+# Create required directories
+mkdir -p \
+    /var/cache/sysc-greet \
+    /var/lib/greeter/Pictures/wallpapers \
+    /var/lib/greeter/.cache \
+    /var/lib/greeter/.config \
+    /var/lib/greeter/.local/state
+
+
+# Set ownership
+chown -R greeter:greeter \
+    /var/cache/sysc-greet \
+    /var/lib/greeter
+
+chmod 700 /var/lib/greeter
