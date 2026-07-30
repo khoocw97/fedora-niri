@@ -1,4 +1,8 @@
 modules:
+  - type: files
+    files:
+      - usr: /usr
+
   - type: script
     scripts:
       - setup-rime-build

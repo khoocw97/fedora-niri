@@ -6,5 +6,5 @@ install:
   exclude:
     - alacritty
     - waybar
-
+    - mako
 
