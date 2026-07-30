@@ -7,8 +7,12 @@ modules:
     scripts:
       - setup-rime-build
       - install-megacmd
+      - install-sysc-greet
 
   - type: systemd
+    system:
+      enabled:
+        - greetd
     user:
       enabled:
         - mega-cmd-server
