@@ -11,7 +11,10 @@ dnf install -y --setopt=tsflags=noscripts /tmp/sysc-greet.rpm
 rm -f /tmp/sysc-greet.rpm
 
 
-# Create system user manually
+# Create system user via sysusers.d (auto-provisioned on boot in Atomic)
+# Also run now so the user exists for chown below
+systemd-sysusers 2>/dev/null || true
+
 if ! id greeter >/dev/null 2>&1; then
     useradd -r \
         -M \
