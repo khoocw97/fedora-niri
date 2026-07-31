@@ -7,6 +7,7 @@ modules:
   - type: script
     scripts:
       - setup-rime-build
+      - setup-home-layout
       - install-megacmd
       - install-sysc-greet
 
