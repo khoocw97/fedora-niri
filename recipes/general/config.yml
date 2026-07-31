@@ -7,14 +7,14 @@ modules:
   - type: script
     scripts:
       - setup-rime-build
-      - setup-home-layout
       - install-megacmd
-      - install-sysc-greet
 
   - type: systemd
     system:
       enabled:
-        - greetd
+        - ly@tty2.service
+      disabled:
+        - getty@tty2.service
     user:
       enabled:
         - mega-cmd-server

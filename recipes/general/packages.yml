@@ -8,6 +8,7 @@ modules:
       - imput/helium
   install:
     packages:
+      - ly
       - helium-bin
       - sunshine
       - fastfetch
@@ -15,7 +16,6 @@ modules:
       - kitty
       - yazi
 #      - kdeconnectd
-      - greetd
 
   remove:
     packages:
