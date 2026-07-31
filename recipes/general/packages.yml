@@ -15,6 +15,7 @@ modules:
       - chezmoi
       - kitty
       - yazi
+      - nautilus
 #      - kdeconnectd
 
   remove:
