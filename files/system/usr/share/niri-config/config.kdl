@@ -10,6 +10,7 @@ prefer-no-csd
 
 hotkey-overlay {
     skip-at-startup
+    hide-not-bound
 }
 
 environment {

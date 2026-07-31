@@ -16,6 +16,7 @@ modules:
       - kitty
       - yazi
       - nautilus
+      - fira-code-fonts
 #      - kdeconnectd
 
   remove:
