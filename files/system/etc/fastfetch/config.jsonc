@@ -26,7 +26,7 @@
         "break",
         {
             "type": "os",
-            "key": " 󰣛",
+            "key": " ",
             "format": "{pretty-name}"
         },
         {
@@ -53,11 +53,11 @@
         },
         {
             "type": "gpu",
-            "key": " 󰍛"
+            "key": " "
         },
         {
             "type": "memory",
-            "key": " "
+            "key": " 󰍛"
         },
         {
             "type": "disk",
@@ -79,11 +79,11 @@
         },
         {
             "type": "wm",
-            "key": " "
+            "key": " "
         },
         {
             "type": "shell",
-            "key": " "
+            "key": " "
         },
         {
             "type": "terminal",

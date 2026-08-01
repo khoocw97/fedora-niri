@@ -6,9 +6,13 @@ modules:
       - lizardbyte/stable
       - lihaohong/yazi
       - imput/helium
+      - atim/starship
+
   install:
     packages:
+      - starship
       - ly
+      - gnome-keyring-pam # unlock keyring
       - helium-bin
       - sunshine
       - fastfetch
@@ -16,8 +20,7 @@ modules:
       - kitty
       - yazi
       - nautilus
-      - fira-code-fonts
-#      - kdeconnectd
+      - kdeconnectd
 
   remove:
     packages:
@@ -36,7 +39,7 @@ modules:
       - fcitx5-qt
       - fcitx5-configtool
 
-- type: dnf # chinese font
+- type: dnf # font
   repos:
     cleanup: true
   install:
@@ -48,6 +51,7 @@ modules:
       - google-noto-color-emoji-fonts
       - google-noto-emoji-fonts
       - google-noto-sans-cjk-vf-fonts
+      - fira-code-fonts
       - glibc-all-langpacks
       - langpacks-zh_CN
       - langpacks-zh_TW

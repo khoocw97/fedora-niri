@@ -16,4 +16,4 @@ configurations:
       - com.github.xournalpp.xournalpp
       - org.gnome.Showtime
       - io.missioncenter.MissionCenter
-  - scope: user
+  #- scope: user
