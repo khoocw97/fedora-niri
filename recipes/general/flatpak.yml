@@ -5,7 +5,10 @@ configurations:
     install:
       - org.mozilla.firefox
       - org.gnome.Loupe
+      # obs
       - com.obsproject.Studio
+      - com.obsproject.Studio.Plugin.Gstreamer
+      - com.obsproject.Studio.Plugin.GStreamerVaapi
       - org.onlyoffice.desktopeditors
       - com.github.tchx84.Flatseal
       - it.mijorus.gearlever

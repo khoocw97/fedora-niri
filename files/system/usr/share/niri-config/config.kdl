@@ -1,5 +1,6 @@
 include "noctalia.kdl"
 include "keybinds.kdl"
+include "animations.kdl"
 
 // Startup
 spawn-at-startup "noctalia"
@@ -65,7 +66,7 @@ layout {
         urgent-color "#9b0000"
     }
     shadow {
-        off
+        on
         softness 10
         spread 4
         offset x=0 y=5
@@ -98,8 +99,8 @@ window-rule {
 window-rule {
     match app-id=r#"dev.noctalia.Noctalia$"#
     open-floating true
-    default-column-width
-    default-window-height
+    default-column-width { fixed 1080 }
+    default-window-height { fixed 1920 }
 }
 window-rule {
     // This app-id regular expression will work for both:
@@ -112,4 +113,9 @@ window-rule {
 cursor {
     xcursor-theme "Adwaita"
     xcursor-size 24
+}
+
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
 }

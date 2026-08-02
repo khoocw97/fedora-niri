@@ -1,42 +1,55 @@
 # fedora-niri &nbsp; [![bluebuild build badge](https://github.com/khoocw97/fedora-niri/actions/workflows/build.yml/badge.svg)](https://github.com/khoocw97/fedora-niri/actions/workflows/build.yml)
 
-See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup instructions for setting up your own repository based on this template.
 
-After setup, it is recommended you update this README to describe your custom image.
+This is my personal system image, built with Niri WM and Noctalia Shell. 
 
-## Installation
 
 > [!WARNING]  
-> [This is an experimental feature](https://www.fedoraproject.org/wiki/Changes/OstreeNativeContainerStable), try at your own discretion.
+> This image is still in a highly experimental stage and comes pre-configured with my personal settings.  
 
-To rebase an existing atomic Fedora installation to the latest build:
+
+## Installation
+To rebase an existing Fedora Atomic installation to the latest build:
 
 - First rebase to the unsigned image, to get the proper signing keys and policies installed:
-  ```
+  ```bash
   rpm-ostree rebase ostree-unverified-registry:ghcr.io/khoocw97/fedora-niri:latest
-  ```
+  
 - Reboot to complete the rebase:
   ```
   systemctl reboot
   ```
+  
 - Then rebase to the signed image, like so:
   ```
   rpm-ostree rebase ostree-image-signed:docker://ghcr.io/khoocw97/fedora-niri:latest
   ```
+  
 - Reboot again to complete the installation
   ```
   systemctl reboot
   ```
-- Bootc (Recommended for Fedora Atomic):
+  
+- Bootc method (Don’t forget to reboot.):
   ```
   sudo bootc switch ghcr.io/khoocw97/fedora-niri:latest
   ```
-  
-The `latest` tag will automatically point to the latest build. That build will still always use the Fedora version specified in `recipe.yml`, so you won't get accidentally updated to the next major version.
+## Credits & Acknowledgements
 
-## ISO
+This project builds upon ideas, configurations, and build recipes from the open-source community. Special thanks to:
 
-If build on Fedora Atomic, you can generate an offline ISO with the instructions available [here](https://blue-build.org/how-to/generate-iso/#_top). These ISOs cannot unfortunately be distributed on GitHub for free due to large sizes, so for public projects something else has to be used for hosting.
+
+* **[NyxNiri](https://github.com/ech678/NyxNiri)** 
+  - Referenced for Niri window manager configurations.
+
+* **[MizukiOS](https://github.com/koitorin/MizukiOS)** 
+  - Referenced for system image building and setup.
+
+---
+
+### Recommended Project
+
+If you are looking for a great Niri desktop configuration, be sure to check out **[NyxNiri](https://github.com/ech678/NyxNiri)**!
 
 ## Verification
 

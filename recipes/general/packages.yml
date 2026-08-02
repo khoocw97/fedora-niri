@@ -11,7 +11,7 @@ modules:
   install:
     packages:
       - starship
-      - ly
+      - ly # login manager
       - gnome-keyring-pam # unlock keyring
       - helium-bin
       - sunshine
@@ -26,6 +26,19 @@ modules:
     packages:
       - firefox
       - firefox-langpacks
+
+- type: dnf # CLI tools
+  repos:
+    cleanup: true
+  install:
+    packages:
+      - ripgrep
+      - fd-find
+      - chezmoi
+      - zoxide
+      - fzf
+      - bat
+      - tealdeer
 
 - type: dnf # fcitx
   repos:
