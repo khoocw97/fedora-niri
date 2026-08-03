@@ -7,12 +7,14 @@ modules:
       - lihaohong/yazi
       - imput/helium
       - atim/starship
+      - peterwu/rendezvous
 
   install:
     packages:
       - starship
       - ly # login manager
       - gnome-keyring-pam # unlock keyring
+      - bibata-cursor-themes
       - helium-bin
       - sunshine
       - fastfetch
