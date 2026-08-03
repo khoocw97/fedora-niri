@@ -1,74 +1,79 @@
-setup-starship:
-    #!/usr/bin/env bash
-    # 在 ~/.bashrc 启用/禁用 starship 提示符 (方向键上下选择，回车确认)
-    set -euo pipefail
+# Manage starship prompt in ~/.bashrc. Options: status | enable | disable
+setup-starship ACTION="":
+    #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
     RC="$HOME/.bashrc"
     LINE='eval "$(starship init bash)"'
-    GREEN=$'\033[1;32m'
-    NC=$'\033[0m'
-
-    if grep -qF 'starship init' "$RC" 2>/dev/null; then
-        current=enable
-    else
-        current=disable
-    fi
-
-    options=(enable disable cancel)
-    sel=0
-    for i in "${!options[@]}"; do
-        [ "${options[$i]}" = "$current" ] && sel=$i
-    done
-
-    n=0
-    while true; do
-        if [ "$n" -gt 0 ]; then printf '\033[4A\033[0J'; fi
-        for i in "${!options[@]}"; do
-            if [ "$i" -eq "$sel" ]; then
-                printf '%b> %s%b\n' "$GREEN" "${options[$i]}" "$NC"
-            else
-                printf '  %s\n' "${options[$i]}"
-            fi
-        done
-        printf '\033[90m%s\033[0m\n' '↑/↓ select，enter confirm'
-        n=1
-        read -r -s -n 1 key
-        case "$key" in
-            $'\e')
-                read -r -s -n 2 -t 0.1 seq || true
-                if [ "$seq" = '[A' ]; then
-                    sel=$(( (sel - 1 + ${#options[@]}) % ${#options[@]} ))
-                elif [ "$seq" = '[B' ]; then
-                    sel=$(( (sel + 1) % ${#options[@]} ))
-                fi
-                ;;
-            '') break ;;
-        esac
-    done
-
-    case "${options[$sel]}" in
-        cancel)
-            echo "cancel"
-            ;;
-        enable)
-            if grep -qFx 'eval "$(starship init bash)"' "$RC"; then
-                echo "already enabled, skipped"
-            else
-                sed -i \
-                    -e '/^# starship prompt$/d' \
-                    -e '/^eval "$(starship init bash)"$/d' \
-                    "$RC"
-
-                printf '\n# starship prompt\n%s\n' "$LINE" >> "$RC"
-
-                echo "enable starship, reopen terminal"
-            fi
-            ;;
-        disable)
+    get_status_token() {
+        if grep -qF 'starship init' "$RC" 2>/dev/null; then
+            echo "enable"
+        else
+            echo "disable"
+        fi
+    }
+    get_current_status() {
+        if [[ "$(get_status_token)" == "enable" ]]; then
+            echo "Enabled"
+        else
+            echo "Not Enabled"
+        fi
+    }
+    enable_starship() {
+        echo "Enabling starship..."
+        if grep -qFx 'eval "$(starship init bash)"' "$RC"; then
+            echo "Already enabled, skipped"
+        else
             sed -i \
                 -e '/^# starship prompt$/d' \
                 -e '/^eval "$(starship init bash)"$/d' \
                 "$RC"
 
-            echo "disable starship, reopen terminal"
-            ;;
-    esac
+            printf '\n# starship prompt\n%s\n' "$LINE" >> "$RC"
+
+            echo "Starship enabled, reopen terminal"
+        fi
+    }
+    disable_starship() {
+        echo "Disabling starship..."
+        sed -i \
+            -e '/^# starship prompt$/d' \
+            -e '/^eval "$(starship init bash)"$/d' \
+            "$RC"
+
+        echo "Starship disabled, reopen terminal"
+    }
+    OPTION="{{ ACTION }}"
+    if [[ "$OPTION" == "help" ]]; then
+        echo "Usage: ujust setup-starship <option>"
+        echo "  <option>: Specify the quick option to skip the prompt"
+        echo "  Use 'status' to print the current status token"
+        echo "  Use 'enable' to enable starship in ~/.bashrc"
+        echo "  Use 'disable' to disable starship in ~/.bashrc"
+        exit 0
+    elif [[ "$OPTION" == "status" ]]; then
+        get_status_token
+        exit $?
+    elif [[ "$OPTION" == "enable" ]]; then
+        enable_starship
+        exit 0
+    elif [[ "$OPTION" == "disable" ]]; then
+        disable_starship
+        exit 0
+    elif [[ -z "$OPTION" ]]; then
+        current_status=$(get_current_status)
+        echo "${bold}Starship${normal}"
+        echo "Current status: $current_status"
+        OPTION=$(ugum choose "Enable" "Disable" "Exit without changes")
+        case "$OPTION" in
+            "Enable")
+                enable_starship
+                ;;
+            "Disable")
+                disable_starship
+                ;;
+            *)
+                echo "No changes made."
+                ;;
+        esac
+        exit 0
+    fi

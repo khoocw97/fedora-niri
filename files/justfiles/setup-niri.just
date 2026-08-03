@@ -1,128 +1,142 @@
-setup-niri:
-    #!/usr/bin/env bash
-    # 安装/备份/还原/清除备份 niri 定制配置 (方向键上下选择，回车确认)
-    set -euo pipefail
+# 管理 niri 定制配置（安装/备份/还原/清除备份）。选项: status | install | backup | restore | clear
+setup-niri ACTION="":
+    #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
     NIRI_DIR="$HOME/.config/niri"
-    GREEN=$'\033[1;32m'
-    NC=$'\033[0m'
-
-    menu() {
-        local -n _labels=$1 _values=$2
-        local _sel=0 _n=0 _key _seq _lines
-        _lines=$(( ${#_labels[@]} + 1 ))
-        while true; do
-            if [ "$_n" -gt 0 ]; then printf '\033[%sA\033[0J' "$_lines" >&2; fi
-            for i in "${!_labels[@]}"; do
-                if [ "$i" -eq "$_sel" ]; then
-                    printf '%b> %s%b\n' "$GREEN" "${_labels[$i]}" "$NC" >&2
-                else
-                    printf '  %s\n' "${_labels[$i]}" >&2
-                fi
-            done
-            printf '\033[90m%s\033[0m\n' '↑/↓ 选择，回车确认' >&2
-            _n=1
-            read -r -s -n 1 _key
-            case "$_key" in
-                $'\e')
-                    read -r -s -n 2 -t 0.1 _seq || true
-                    if [ "$_seq" = '[A' ]; then
-                        _sel=$(( (_sel - 1 + ${#_labels[@]}) % ${#_labels[@]} ))
-                    elif [ "$_seq" = '[B' ]; then
-                        _sel=$(( (_sel + 1) % ${#_labels[@]} ))
-                    fi
-                    ;;
-                '') break ;;
-            esac
-        done
-        printf '%s\n' "$_sel"
+    get_status_token() {
+        if [ -d "$NIRI_DIR" ]; then
+            echo "install"
+        else
+            echo "uninstall"
+        fi
     }
-
-    labels=(安装 备份 还原 清除备份 取消)
-    values=(install backup restore clear cancel)
-
-    printf '\033[?1049h'
-    trap 'printf "\033[?1049l"' EXIT
-    result=""
-    while true; do
-        clear
-        echo "Niri 配置（~/.config/niri）"
-        sel=$(menu labels values)
-        case "${values[$sel]}" in
-            cancel)
-                result="cancel"
-                break
-                ;;
-            backup)
-                if [ -d "$NIRI_DIR" ]; then
-                    BK="$NIRI_DIR.bak.$(date +%Y%m%d-%H%M%S)"
-                    cp -r "$NIRI_DIR" "$BK"
-                    result="已备份到 $BK"
-                else
-                    result="没有现有配置可备份"
-                fi
-                break
-                ;;
-            install)
-                if [ -d "$NIRI_DIR" ]; then
-                    BK="$NIRI_DIR.bak.$(date +%Y%m%d-%H%M%S)"
-                    cp -r "$NIRI_DIR" "$BK"
-                fi
-                mkdir -p "$NIRI_DIR"
-                cp -r /usr/share/niri-config/* "$NIRI_DIR"
-                result="已安装镜像内置配置"
+    get_current_status() {
+        if [[ "$(get_status_token)" == "install" ]]; then
+            echo "已安装"
+        else
+            echo "未安装"
+        fi
+    }
+    find_backups() {
+        find "$HOME/.config" -maxdepth 1 -type d -name 'niri.bak.*' | sort
+    }
+    install_niri() {
+        echo "安装 Niri 配置..."
+        if [ -d "$NIRI_DIR" ]; then
+            BK="$NIRI_DIR.bak.$(date +%Y%m%d-%H%M%S)"
+            cp -r "$NIRI_DIR" "$BK"
+            echo "已备份原配置到 $BK"
+        fi
+        mkdir -p "$NIRI_DIR"
+        cp -r /usr/share/niri-config/* "$NIRI_DIR"
+        echo "已安装镜像内置配置"
+        niri msg action load-config-file 2>/dev/null || true
+    }
+    backup_niri() {
+        echo "备份 Niri 配置..."
+        if [ -d "$NIRI_DIR" ]; then
+            BK="$NIRI_DIR.bak.$(date +%Y%m%d-%H%M%S)"
+            cp -r "$NIRI_DIR" "$BK"
+            echo "已备份到 $BK"
+        else
+            echo "没有现有配置可备份"
+        fi
+    }
+    restore_niri() {
+        echo "还原 Niri 配置..."
+        mapfile -t bks < <(find_backups)
+        if [ "${#bks[@]}" -eq 0 ]; then
+            echo "没有找到备份"
+            return 1
+        fi
+        if [ -d "$NIRI_DIR" ]; then
+            BK="$NIRI_DIR.bak.$(date +%Y%m%d-%H%M%S)"
+            cp -r "$NIRI_DIR" "$BK"
+            echo "已备份当前配置到 $BK"
+        fi
+        labels=()
+        values=()
+        for backup_dir in "${bks[@]}"; do
+            labels+=("${backup_dir##*/}")
+            values+=("$backup_dir")
+        done
+        labels+=("取消")
+        values+=("cancel")
+        sel=$(ugum choose --selected "${labels[0]}" "${labels[@]}")
+        [[ "$sel" == "取消" ]] && echo "已取消" && return 1
+        for i in "${!labels[@]}"; do
+            if [[ "${labels[$i]}" == "$sel" ]]; then
+                cp -r "${values[$i]}/." "$NIRI_DIR/"
+                echo "已还原 ${values[$i]}"
                 niri msg action load-config-file 2>/dev/null || true
-                break
+                return 0
+            fi
+        done
+        echo "已取消"
+        return 1
+    }
+    clear_niri() {
+        echo "清除 Niri 配置备份..."
+        mapfile -t bks < <(find_backups)
+        if [ "${#bks[@]}" -eq 0 ]; then
+            echo "没有找到备份"
+            return 1
+        fi
+        echo "将删除以下 ${#bks[@]} 个备份："
+        printf '  %s\n' "${bks[@]}"
+        if ugum confirm "确认删除？"; then
+            rm -rf "${bks[@]}"
+            echo "已删除 ${#bks[@]} 个备份"
+        else
+            echo "已取消"
+        fi
+    }
+    OPTION="{{ ACTION }}"
+    if [[ "$OPTION" == "help" ]]; then
+        echo "Usage: ujust setup-niri <option>"
+        echo "  <option>: Specify the quick option to skip the prompt"
+        echo "  Use 'status' to print the current status token"
+        echo "  Use 'install' to install the built-in niri config"
+        echo "  Use 'backup' to backup the current niri config"
+        echo "  Use 'restore' to restore a niri config backup"
+        echo "  Use 'clear' to clear all niri config backups"
+        exit 0
+    elif [[ "$OPTION" == "status" ]]; then
+        get_status_token
+        exit $?
+    elif [[ "$OPTION" == "install" ]]; then
+        install_niri
+        exit 0
+    elif [[ "$OPTION" == "backup" ]]; then
+        backup_niri
+        exit 0
+    elif [[ "$OPTION" == "restore" ]]; then
+        restore_niri
+        exit 0
+    elif [[ "$OPTION" == "clear" ]]; then
+        clear_niri
+        exit 0
+    elif [[ -z "$OPTION" ]]; then
+        current_status=$(get_current_status)
+        echo "${bold}Niri 配置${normal}"
+        echo "当前状态: $current_status"
+        OPTION=$(ugum choose "安装" "备份" "还原" "清除备份" "退出不更改")
+        case "$OPTION" in
+            "安装")
+                install_niri
                 ;;
-            restore)
-                mapfile -t bks < <(find "$HOME/.config" -maxdepth 1 -type d -name 'niri.bak.*' | sort)
-                if [ "${#bks[@]}" -eq 0 ]; then
-                    read -r -s -n 1 -p "没有找到备份，按任意键返回主菜单" _ || true
-                    echo
-                    continue
-                fi
-                rlabels=()
-                rvalues=()
-                for b in "${bks[@]}"; do
-                    rlabels+=("${b##*/}")
-                    rvalues+=("$b")
-                done
-                rlabels+=("取消")
-                rvalues+=("cancel")
-                rsel=$(menu rlabels rvalues)
-                if [ "${rvalues[$rsel]}" != "cancel" ]; then
-                    cp -r "${rvalues[$rsel]}/." "$NIRI_DIR/"
-                    result="已还原 ${rvalues[$rsel]}"
-                    niri msg action load-config-file 2>/dev/null || true
-                else
-                    result="cancel"
-                fi
-                break
+            "备份")
+                backup_niri
                 ;;
-            clear)
-                mapfile -t bks < <(find "$HOME/.config" -maxdepth 1 -type d -name 'niri.bak.*' | sort)
-                if [ "${#bks[@]}" -eq 0 ]; then
-                    read -r -s -n 1 -p "没有找到备份，按任意键返回主菜单" _ || true
-                    echo
-                    continue
-                fi
-                echo "将删除以下 ${#bks[@]} 个备份："
-                printf '  %s\n' "${bks[@]}"
-                read -r -p "确认删除？[y/N] " ans
-                case "$ans" in
-                    [yY]|[yY][eE][sS])
-                        rm -rf "${bks[@]}"
-                        result="已删除 ${#bks[@]} 个备份："
-                        for b in "${bks[@]}"; do
-                            result+=$'\n  '"$b"
-                        done
-                        ;;
-                    *) result="已取消" ;;
-                esac
-                break
+            "还原")
+                restore_niri
+                ;;
+            "清除备份")
+                clear_niri
+                ;;
+            *)
+                echo "没有更改。"
                 ;;
         esac
-    done
-    printf '\033[?1049l'
-    if [ -n "$result" ]; then
-        printf '\n%s\n' "$result"
+        exit 0
     fi

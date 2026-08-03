@@ -14,6 +14,7 @@ modules:
       - starship
       - ly # login manager
       - gnome-keyring-pam # unlock keyring
+      - adw-gtk3-theme # unofficial GTK3 port of libadwaita
       - bibata-cursor-themes
       - helium-bin
       - sunshine
@@ -38,11 +39,12 @@ modules:
       - fd-find
       - chezmoi
       - zoxide
+      - eza
       - fzf
       - bat
       - tealdeer
 
-- type: dnf # fcitx
+- type: dnf # change to fcitx
   repos:
     cleanup: true
   install:
@@ -53,6 +55,21 @@ modules:
       - fcitx5-gtk
       - fcitx5-qt
       - fcitx5-configtool
+   remove:
+    packages:
+      - ibus
+      - ibus-anthy
+      - ibus-anthy-python
+      - ibus-chewing
+      - ibus-gtk3
+      - ibus-gtk4
+      - ibus-hangul
+      - ibus-libpinyin
+      - ibus-libs
+      - ibus-m17n
+      - ibus-setup
+      - ibus-typing-booster
+      - python3-ibus
 
 - type: dnf # font
   repos:

@@ -1,60 +1,137 @@
-setup-rime:
+# 管理 Rime 配置（安装全拼/双拼、更新）。选项: install | install-shuangpin | update | status | help
+setup-rime ACTION="":
     #!/usr/bin/env bash
-    # 安装(本地内置数据) / 更新(git 拉取最新) / 取消 (方向键上下选择，回车确认)
     set -euo pipefail
-    RIME_DIR="$HOME/.local/share/fcitx5/rime"
-    GREEN=$'\033[1;32m'
-    NC=$'\033[0m'
+    source /usr/lib/ujust/ujust.sh
 
-    labels=(安装 更新 取消)
-    values=(install update cancel)
-    sel=0
-    n=0
-    while true; do
-        if [ "$n" -gt 0 ]; then printf '\033[4A\033[0J'; fi
-        for i in "${!labels[@]}"; do
-            if [ "$i" -eq "$sel" ]; then
-                printf '%b> %s%b\n' "$GREEN" "${labels[$i]}" "$NC"
-            else
-                printf '  %s\n' "${labels[$i]}"
+    RIME_DIR="$HOME/.local/share/fcitx5/rime"
+
+    get_status_token() {
+        if [ -d "$RIME_DIR" ] && [ -f "$RIME_DIR/default.yaml" ]; then
+            echo "installed"
+        else
+            echo "not-installed"
+        fi
+    }
+
+    get_current_status() {
+        if [[ "$(get_status_token)" == "installed" ]]; then
+            echo "已安装"
+        else
+            echo "未安装"
+        fi
+    }
+
+    clone_plum() {
+        TMP_DIR=$(mktemp -d)
+        if ! git clone https://github.com/rime/plum.git "$TMP_DIR/plum"; then
+            rm -rf "$TMP_DIR"
+            echo "Git 拉取失败，请检查网络后重试，未更改现有配置"
+            return 1
+        fi
+    }
+
+    install_rime() {
+        echo "安装 Rime 配置（全拼，从本地内置数据）..."
+        mkdir -p "$RIME_DIR"
+        cp -r /usr/share/rime-ice/* "$RIME_DIR"
+        echo "已安装本地内置数据"
+        restart_fcitx5
+    }
+
+    install_shuangpin() {
+        scheme_labels=(自然码 小鹤 微软 搜狗 智能ABC 拼音加加 紫光 取消)
+        scheme_values=(double_pinyin double_pinyin_flypy double_pinyin_mspy double_pinyin_sogou double_pinyin_abc double_pinyin_jiajia double_pinyin_ziguang cancel)
+        echo "选择双拼方案..."
+        sel=$(ugum choose "${scheme_labels[@]}") || sel=""
+        if [[ "$sel" == "取消" ]]; then
+            echo "已取消"
+            return 0
+        fi
+        scheme=""
+        for i in "${!scheme_labels[@]}"; do
+            if [[ "${scheme_labels[$i]}" == "$sel" ]]; then
+                scheme="${scheme_values[$i]}"
+                break
             fi
         done
-        printf '\033[90m%s\033[0m\n' '↑/↓ 选择，回车确认'
-        n=1
-        read -r -s -n 1 key
-        case "$key" in
-            $'\e')
-                read -r -s -n 2 -t 0.1 seq || true
-                if [ "$seq" = '[A' ]; then
-                    sel=$(( (sel - 1 + ${#labels[@]}) % ${#labels[@]} ))
-                elif [ "$seq" = '[B' ]; then
-                    sel=$(( (sel + 1) % ${#labels[@]} ))
-                fi
-                ;;
-            '') break ;;
-        esac
-    done
+        if [[ -z "$scheme" ]]; then
+            echo "已取消"
+            return 0
+        fi
+        echo "安装双拼方案 $sel ($scheme) ..."
+        clone_plum || return 1
+        cd "$TMP_DIR/plum"
+        rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice
+        rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/config:schema=$scheme"
+        rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/grammar:schema=$scheme"
+        rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/reverse_tone=$scheme"
+        rm -rf "$TMP_DIR"
+        echo "已安装 $sel 双拼方案"
+        restart_fcitx5
+    }
 
-    case "${values[$sel]}" in
-        cancel)
-            echo "取消"
-            ;;
-        install)
-            rm -rf "$HOME/.config/fcitx5/rime" "$RIME_DIR"
-            mkdir -p "$RIME_DIR"
-            cp -r /usr/share/rime-ice/* "$RIME_DIR"
-            echo "已从本地内置数据安装"
-            ;;
-        update)
-            rm -rf "$HOME/.config/fcitx5/rime" "$RIME_DIR"
-            mkdir -p "$RIME_DIR"
-            TMP_DIR=$(mktemp -d)
-            git clone https://github.com/rime/plum.git "$TMP_DIR/plum"
-            cd "$TMP_DIR/plum"
-            rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice
-            rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice:others/recipes/grammar:schema=rime_ice
-            rm -rf "$TMP_DIR"
-            echo "已更新"
-            ;;
-    esac
-    pgrep -x fcitx5 > /dev/null && fcitx5-remote -r || echo "fcitx5 not running, run 'fcitx5-remote -r' later"
+    update_rime() {
+        echo "更新 Rime 配置（从 Git 拉取最新）..."
+        clone_plum || return 1
+        cd "$TMP_DIR/plum"
+        rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice
+        rm -rf "$TMP_DIR"
+        echo "已更新到最新版本"
+        restart_fcitx5
+    }
+
+    restart_fcitx5() {
+        if pgrep -x fcitx5 > /dev/null; then
+            if fcitx5-remote -r; then
+                echo "fcitx5 已重新加载配置"
+            else
+                echo "fcitx5 重载失败，请手动执行 'fcitx5-remote -r'"
+            fi
+        else
+            echo "fcitx5 未运行，请稍后执行 'fcitx5-remote -r'"
+        fi
+    }
+
+    OPTION="{{ ACTION }}"
+    if [[ "$OPTION" == "help" ]]; then
+        echo "Usage: ujust setup-rime <option>"
+        echo "  <option>: Specify the quick option to skip the prompt"
+        echo "  Use 'status' to print current status token"
+        echo "  Use 'install' to install built-in full pinyin data"
+        echo "  Use 'install-shuangpin' to install a double pinyin scheme via git"
+        echo "  Use 'update'  to update from Git repository"
+        exit 0
+    elif [[ "$OPTION" == "status" ]]; then
+        get_status_token
+        exit $?
+    elif [[ "$OPTION" == "install" ]]; then
+        install_rime
+        exit 0
+    elif [[ "$OPTION" == "install-shuangpin" ]]; then
+        install_shuangpin
+        exit 0
+    elif [[ "$OPTION" == "update" ]]; then
+        update_rime
+        exit 0
+    elif [[ -z "$OPTION" ]]; then
+        current_status=$(get_current_status)
+        echo "${bold}Rime 配置${normal}"
+        echo "当前状态: $current_status"
+        choice=$(ugum choose "安装" "安装双拼" "更新" "退出不更改") || choice=""
+        case "$choice" in
+            "安装")
+                install_rime
+                ;;
+            "安装双拼")
+                install_shuangpin
+                ;;
+            "更新")
+                update_rime
+                ;;
+            *)
+                echo "没有更改。"
+                ;;
+        esac
+        exit 0
+    fi
