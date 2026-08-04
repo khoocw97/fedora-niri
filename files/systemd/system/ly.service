@@ -1,0 +1,16 @@
+[Unit]
+Description=TUI display manager
+After=systemd-user-sessions.service plymouth-quit-wait.service
+After=getty@tty2.service
+
+[Service]
+Type=idle
+ExecStartPre=/usr/bin/printf '%%b' '\e]P011121D\e]P7A9B1D6\ec'
+ExecStart=/usr/bin/ly
+StandardInput=tty
+TTYPath=/dev/tty2
+TTYReset=yes
+TTYVHangup=yes
+
+[Install]
+WantedBy=multi-user.target

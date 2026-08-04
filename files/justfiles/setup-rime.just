@@ -72,7 +72,7 @@ setup-rime ACTION="":
     }
 
     update_rime() {
-        echo "更新 Rime 配置（从 Git 拉取最新）..."
+        echo "更新 Rime 配置（从 Git 拉取最fcitx5 -d > /dev/null 2>&1新）..."
         clone_plum || return 1
         cd "$TMP_DIR/plum"
         rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice
@@ -83,13 +83,12 @@ setup-rime ACTION="":
 
     restart_fcitx5() {
         if pgrep -x fcitx5 > /dev/null; then
-            if fcitx5-remote -r; then
-                echo "fcitx5 已重新加载配置"
-            else
-                echo "fcitx5 重载失败，请手动执行 'fcitx5-remote -r'"
-            fi
+            busctl --user call org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1 SetConfig sv "fcitx://config/addon/rime/deploy" s "" > /dev/null 2>&1
+            echo "Rime 重新部署中，请等待 5 秒..."
+            sleep 5
+            echo "Rime 已重新部署"
         else
-            echo "fcitx5 未运行，请稍后执行 'fcitx5-remote -r'"
+            echo "fcitx5-rime 部署失败，请重启fcitx5"
         fi
     }
 

@@ -12,13 +12,15 @@ modules:
   - type: systemd
     system:
       enabled:
-        - ly@tty2.service
+        #- ly@tty2.service
+        - ly.service
+
       disabled:
         - getty@tty2.service
     user:
       enabled:
         - mega-cmd-server
-#        - kdeconnectd
+        - kdeconnectd
 
   - type: justfiles
     install: true

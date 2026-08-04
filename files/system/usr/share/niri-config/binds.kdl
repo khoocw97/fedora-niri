@@ -2,9 +2,13 @@ binds {
 
     // Personal
     Mod+Return hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
-    Mod+E hotkey-overlay-title="Open Nautilus" { spawn "nautilus"; }
+    Mod+E hotkey-overlay-title="Open Files" { spawn "nautilus"; }
     Mod+B hotkey-overlay-title="Mozilla Firefox" { spawn "flatpak" "run" "org.mozilla.firefox"; }
     Mod+G hotkey-overlay-title="Helium Browser" { spawn "helium"; }
+    Mod+N hotkey-overlay-title="Text-Editor" { spawn "flatpak" "run" "org.gnome.TextEditor"; }
+    Mod+O hotkey-overlay-title="OBS-Studio" { spawn "flatpak" "run" "com.obsproject.Studio"; }
+    Mod+P hotkey-overlay-title="Print Script" { spawn "kitty" "--class" "PrintTerminal" "--" "/home/weng/.local/bin/print_pdf.sh"; }
+
 
     // --------------------------------------------------------------
 
@@ -42,6 +46,8 @@ binds {
     // System Setting
     Mod+Shift+Slash { spawn-sh "python3 /usr/share/niri-config/niri_parse_keybinds.py -i ~/.config/niri/keybinds.kdl | fuzzel -d -w 100 -f monospace --match-mode exact"; }
     Mod+Shift+P { power-off-monitors; }
+    XF86PowerOff { spawn "systemctl" "poweroff"; }
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     // Quit niri session
     Mod+Shift+E { quit; }
     // Reload niri config

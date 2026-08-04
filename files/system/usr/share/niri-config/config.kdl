@@ -1,13 +1,10 @@
-include "noctalia.kdl"
-include "keybinds.kdl"
-include "animations.kdl"
-
-// Startup
-spawn-at-startup "noctalia"
-spawn-at-startup "fcitx5" "-d"
-spawn-at-startup "sunshine"
-
 prefer-no-csd
+
+gestures {
+    hot-corners {
+        off
+    }
+}
 
 hotkey-overlay {
     skip-at-startup
@@ -39,83 +36,39 @@ input {
         // accel-speed 0.2
     }
     focus-follows-mouse max-scroll-amount="0%"
-}
-
-layout {
-    // Set gaps around windows in logical pixels.
-    gaps 3
-    center-focused-column "never"
-    preset-column-widths {
-        proportion 0.33333
-        proportion 0.5
-        proportion 0.66667
-    }
-    default-column-width { proportion 0.5; }
-    focus-ring {
-        // Uncomment this line to disable the focus ring.
-        // off
-        width 3
-        active-color "#7fc8ff"
-        inactive-color "#505050"
-    }
-    border {
-        off
-        width 4
-        active-color "#ffc87f"
-        inactive-color "#505050"
-        urgent-color "#9b0000"
-    }
-    shadow {
-        on
-        softness 10
-        spread 4
-        offset x=0 y=5
-        color "#0007"
-    }
-    tab-indicator {
-        active-color "#b6c7e7"
-        inactive-color "#374761"
-        urgent-color "#ffb4ab"
-    }
-    insert-hint {
-        color "#b6c7e780"
-    }
+    // Disable niri take over power button
+    disable-power-key-handling
 }
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
-animations {
-    // Uncomment to turn off all animations.
-    // offd
 
-    // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
-}
-
-window-rule {
-    geometry-corner-radius 10
-    clip-to-geometry true
-}
-
-window-rule {
-    match app-id=r#"dev.noctalia.Noctalia$"#
-    open-floating true
-    default-column-width { fixed 1080 }
-    default-window-height { fixed 1920 }
-}
-window-rule {
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    open-floating true
-}
-
-cursor {
-    xcursor-theme "Adwaita"
-    xcursor-size 24
+recent-windows {
+    binds {
+        // Pre-select the "Output" scope when switching windows.
+        Alt+Tab         { next-window scope="output"; }
+        Alt+Shift+Tab   { previous-window scope="output"; }
+        // filter with app-id (pre-seletct next app with same id)
+        Alt+grave       { next-window filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+    highlight {
+        corner-radius 12
+        active-color "#b6c7e7"
+        urgent-color "#ffb4ab"
+    }
 }
 
 debug {
   // Allows notification actions and window activation from Noctalia.
   honor-xdg-activation-with-invalid-serial
 }
+
+// settings files
+include "startup.kdl"
+include "colour.kdl"
+include "layout.kdl"
+include "animations.kdl"
+//include "outputs.kdl"
+include "cursor.kdl"
+include "windowrules.kdl"
+include "binds.kdl"
