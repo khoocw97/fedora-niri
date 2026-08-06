@@ -1,0 +1,41 @@
+name: Build Live ISO
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Lowercase Repository Owner
+        id: repo_owner
+        run: echo "lowercase=${REPO_OWNER,,}" >> "$GITHUB_OUTPUT"
+        env:
+          REPO_OWNER: ${{ github.repository_owner }}
+
+      - name: Build ISO
+        uses: JasonN3/build-container-installer@v1.2.3
+        id: build
+        with:
+          image_name: fedora-niri
+          image_repo: ghcr.io/${{ steps.repo_owner.outputs.lowercase }}
+          image_tag: latest
+          iso_name: fedora-niri-installer.iso
+          variant: offline
+          version: 44
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: fedora-niri-iso
+          path: ${{ steps.build.outputs.iso_path }}
+          if-no-files-found: error
+          retention-days: 3
