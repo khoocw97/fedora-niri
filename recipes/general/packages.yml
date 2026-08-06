@@ -18,8 +18,6 @@ modules:
       - bibata-cursor-themes
       - helium-bin
       - sunshine
-      - fastfetch
-      - chezmoi
       - kitty
       - yazi
       - nautilus
@@ -43,6 +41,20 @@ modules:
       - fzf
       - bat
       - tealdeer
+      - fastfetch
+      - duf
+
+- type: dnf # steam & extest
+  repos:
+    cleanup: true
+    files:
+      - https://negativo17.org/repos/fedora-steam.repo
+    copr:
+      - bazzite-org/bazzite
+  install:
+    packages:
+      - steam
+      - extest
 
 - type: dnf # change to fcitx
   repos:

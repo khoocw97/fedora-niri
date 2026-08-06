@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+curl -Lo "$TMP_DIR/maple-mono.zip" \
+  https://github.com/subframe7536/maple-font/releases/download/v7.9/MapleMono-NF-CN.zip
+
+mkdir -p "$TMP_DIR/maple-mono"
+unzip -q "$TMP_DIR/maple-mono.zip" -d "$TMP_DIR/maple-mono"
+
+mkdir -p /usr/share/fonts/maple-mono
+find "$TMP_DIR/maple-mono" -type f \( -name '*.ttf' -o -name '*.otf' \) -exec cp "{}" /usr/share/fonts/maple-mono/ \;
+
+fc-cache -f /usr/share/fonts/maple-mono
