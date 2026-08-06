@@ -1,41 +1,49 @@
-name: Build Live ISO
+name: Build ISO
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 支持在 GitHub Actions 网页端手动点击按钮触发
+
+env:
+  # 填写你的 GHCR 容器信息
+  IMAGE_NAME: "fedora-niri"
+  IMAGE_REPO: "ghcr.io/khoocw97"
+  IMAGE_TAG: "latest"
+  VERSION: "44"               # Fedora 版本号
+  VARIANT: "offline"          # offline 会把镜像打包进 ISO，适合离线安装；如果填 online 则是网络安装包
+  ARCH: "x86_64"
 
 jobs:
   build-iso:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
-      packages: read
+      packages: write
+      id-token: write
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Lowercase Repository Owner
-        id: repo_owner
-        run: echo "lowercase=${REPO_OWNER,,}" >> "$GITHUB_OUTPUT"
-        env:
-          REPO_OWNER: ${{ github.repository_owner }}
-
       - name: Build ISO
-        uses: JasonN3/build-container-installer@v1.2.3
+        uses: jasonn3/build-container-installer@main
         id: build
         with:
-          image_name: fedora-niri
-          image_repo: ghcr.io/${{ steps.repo_owner.outputs.lowercase }}
-          image_tag: latest
-          iso_name: fedora-niri-installer.iso
-          variant: offline
-          version: 44
+          arch: ${{ env.ARCH }}
+          image_name: ${{ env.IMAGE_NAME }}
+          image_repo: ${{ env.IMAGE_REPO }}
+          image_tag: ${{ env.IMAGE_TAG }}
+          version: ${{ env.VERSION }}
+          variant: ${{ env.VARIANT }}
+          iso_name: ${{ env.IMAGE_NAME }}-${{ env.IMAGE_TAG }}-${{ env.VERSION }}.iso
 
-      - name: Upload ISO
+      - name: Upload ISO as artifact
+        id: upload
         uses: actions/upload-artifact@v4
         with:
-          name: fedora-niri-iso
-          path: ${{ steps.build.outputs.iso_path }}
+          name: ${{ env.IMAGE_NAME }}-${{ env.IMAGE_TAG }}-${{ env.VERSION }}-ISO
+          path: |
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}-CHECKSUM
           if-no-files-found: error
-          retention-days: 3
+          retention-days: 2 # 原配置的 0 天会导致文件上传后立即被删除，这里建议改为 2 天以方便下载
+          compression-level: 0
