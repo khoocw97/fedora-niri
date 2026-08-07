@@ -26,6 +26,7 @@ modules:
     user:
       enabled:
         - mega-cmd-server
+        - niri-steam
 
   - type: justfiles
     install: true

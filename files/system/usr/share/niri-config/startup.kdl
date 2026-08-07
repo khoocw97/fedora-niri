@@ -1,7 +1,7 @@
 // Startup
 spawn-at-startup "noctalia"
 spawn-at-startup "fcitx5" "-d"
-spawn-at-startup "niri-steam"
+//spawn-at-startup "niri-steam"
 
 
 // Personal Startup
