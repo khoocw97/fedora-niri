@@ -47,8 +47,6 @@ modules:
 - type: dnf # steam & extest
   repos:
     cleanup: true
-    files:
-      - https://negativo17.org/repos/fedora-steam.repo
     copr:
       - bazzite-org/bazzite
   install:
