@@ -65,7 +65,7 @@ setup-rime ACTION="":
         rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice
         rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/config:schema=$scheme"
         rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/grammar:schema=$scheme"
-        rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/reverse_tone=$scheme"
+        rime_dir="$RIME_DIR" bash rime-install "iDvel/rime-ice:others/recipes/reverse_tone:schema=$scheme"
         rm -rf "$TMP_DIR"
         echo "已安装 $sel 双拼方案"
         restart_fcitx5
