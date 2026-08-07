@@ -1,10 +1,12 @@
 // Startup
 spawn-at-startup "noctalia"
 spawn-at-startup "fcitx5" "-d"
+spawn-at-startup "niri-steam"
 
 
 // Personal Startup
 spawn-at-startup "sunshine"
+
 // spawn-sh-at-startup "/home/weng/.local/bin/fix_audio.sh"
 // spawn-at-startup "/home/weng/AppImages/beeper.appimage"
 
