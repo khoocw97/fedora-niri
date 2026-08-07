@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+mkdir -p /usr/lib/extest
+
+curl -Lo "$TMP_DIR/libextest.so" \
+  https://github.com/ublue-os/extest/releases/download/1.0.4/libextest.so
+
+echo "99211f1efb265ad15d07fcabd334f97f6f146f66d73597410db5509d0c91d885  $TMP_DIR/libextest.so" |
+  sha256sum -c -
+
+install -m 0644 "$TMP_DIR/libextest.so" /usr/lib/extest/libextest.so

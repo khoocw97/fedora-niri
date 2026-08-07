@@ -8,6 +8,8 @@ modules:
     scripts:
       - setup-rime-build
       - install-megacmd
+      - install-extest
+      - install-maple-mono # font
 
   - type: script
     snippets:
@@ -27,5 +29,3 @@ modules:
 
   - type: justfiles
     install: true
-
-

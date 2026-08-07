@@ -80,11 +80,6 @@ modules:
     packages:
       - steam
 
-- type: download
-  url: https://github.com/ublue-os/extest/releases/download/1.0.4/libextest.so
-  path: /usr/lib/extest/libextest.so
-  sha256: 99211f1efb265ad15d07fcabd334f97f6f146f66d73597410db5509d0c91d885
-
 - type: dnf # font
   repos:
     cleanup: true
