@@ -45,6 +45,12 @@ This project builds upon ideas, configurations, and build recipes from the open-
 * **[MizukiOS](https://github.com/koitorin/MizukiOS)** 
   - Referenced for system image building and setup.
 
+* **[Bazzite](https://github.com/ublue-os/bazzite)**
+  - Inspired by Bazzite's setup scripts and automation approach.
+
+* **[96yottea](https://x.com/96yottea)**
+  - Thanks for the wallpapers used in this project.
+  
 ---
 
 ### Recommended Project

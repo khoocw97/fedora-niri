@@ -45,6 +45,12 @@
 * **[MizukiOS](https://github.com/koitorin/MizukiOS)** 
   - 提供了系统镜像构建与架构方案参考。
 
+* **[Bazzite](https://github.com/ublue-os/bazzite)**
+  - 受其系统设置脚本和自动化方式启发。
+
+* **[96yottea](https://x.com/96yottea)**
+  - 感谢其提供的壁纸，本项目使用了这些壁纸作为桌面背景资源。
+
 ---
 
 ### 推荐项目

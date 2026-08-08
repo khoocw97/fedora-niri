@@ -27,6 +27,7 @@ modules:
       enabled:
         - mega-cmd-server
         - niri-steam
+        - udiskie
 
   - type: justfiles
     install: true
