@@ -1,5 +1,4 @@
 # Manage OpenTabletDriver, an open source, cross-platform, user-mode tablet driver. Options: status | install | uninstall
-[group("hardware")]
 opentabletdriver ACTION="":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh

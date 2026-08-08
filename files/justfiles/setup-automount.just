@@ -1,5 +1,4 @@
 # Auto-mount external drives with udiskie.
-[group("automounting")]
 automount ACTION="":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh

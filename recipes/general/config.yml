@@ -10,6 +10,7 @@ modules:
       - install-megacmd
       - install-extest
       - install-maple-mono # font
+      - install-lsfg
 
   - type: script
     snippets:
