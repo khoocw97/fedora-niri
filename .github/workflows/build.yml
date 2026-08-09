@@ -28,9 +28,9 @@ jobs:
         recipe:
           # !! Add your recipes here
           # recipe > file
-          - file: recipes/recipe.yml
+          - file: recipe.yml
             tag: latest
-          - file: recipes/recipe-gaming.yml
+          - file: recipe-gaming.yml
             tag: gaming
     steps:
       # the build is fully handled by the reusable github action
