@@ -4,6 +4,9 @@
 name: fedora-niri
 # description will be included in the image's metadata
 description: Personal OS - Gaming Edition
+# this image is pushed to ghcr.io/<user>/fedora-niri:gaming instead of :latest
+alt-tags:
+  - gaming
 
 base-image: ghcr.io/ublue-os/base-main
 image-version: latest
