@@ -73,6 +73,11 @@ setup-shell ACTION="":
         "alias ls='eza'"
         "alias l1='eza -1'"
         "alias cat='bat --style=plain --pager=never'"
+        # personal
+        "alias lsblk='lsblk | bat -l conf -p'"
+        "alias mv='mv -i'"
+        "alias rm='rm -Iv'"
+        "alias df='df -h'"
     )
     remove_line() {
         grep -Fxv -- "$1" "$RC" > "$RC.tmp" && mv "$RC.tmp" "$RC"

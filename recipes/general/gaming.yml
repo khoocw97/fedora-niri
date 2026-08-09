@@ -7,6 +7,7 @@ modules:
   install:
     packages:
       - steam
+      - gamescope
       - mangohud
 
 - type: files
@@ -19,6 +20,7 @@ modules:
 - type: script
   scripts:
     - ../gaming/scripts/install-lsfg
+    - ../gaming/scripts/install-sdl-gamecontroller
 
 - type: systemd
   user:

@@ -3,21 +3,28 @@ configurations:
   - notify: false
     scope: system
     install:
+      # flatpak config / store / Setting
+      - io.github.kolunmi.Bazaar
+      - com.github.tchx84.Flatseal
+      - io.github.flattool.Warehouse
+      - it.mijorus.gearlever # manage AppImages
+      - io.missioncenter.MissionCenter
+
       - org.mozilla.firefox
-      - org.gnome.Loupe
+      - com.google.Chrome
+      - org.gnome.Loupe # imageview
+      - org.gnome.Showtime # video player
+
       # obs
       - com.obsproject.Studio
       - com.obsproject.Studio.Plugin.Gstreamer
       - com.obsproject.Studio.Plugin.GStreamerVaapi
 
-      - org.onlyoffice.desktopeditors
-      - com.github.tchx84.Flatseal
-      - it.mijorus.gearlever
+      # PDF / Office / Transfer
       - com.github.jeromerobert.pdfarranger
-      - org.localsend.localsend_app
       - com.github.flxzt.rnote
-      - io.github.kolunmi.Bazaar
       - com.github.xournalpp.xournalpp
-      - org.gnome.Showtime
-      - io.missioncenter.MissionCenter
+      - org.onlyoffice.desktopeditors
+      - org.localsend.localsend_app
+
   #- scope: user
