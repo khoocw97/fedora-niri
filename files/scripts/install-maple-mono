@@ -4,8 +4,12 @@ set -euo pipefail
 TMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-curl -Lo "$TMP_DIR/maple-mono.zip" \
-  https://github.com/subframe7536/maple-font/releases/download/v7.9/MapleMono-NF-CN.zip
+# Query the GitHub API for the latest release asset URL
+API=$(curl -fsSL https://api.github.com/repos/subframe7536/maple-font/releases/latest)
+
+ZIP_URL=$(echo "$API" | grep -oP '"browser_download_url":\s*"\K[^"]+(?=")' | grep 'MapleMono-NF-CN\.zip$')
+
+curl -fsSLo "$TMP_DIR/maple-mono.zip" "$ZIP_URL"
 
 mkdir -p "$TMP_DIR/maple-mono"
 unzip -q "$TMP_DIR/maple-mono.zip" -d "$TMP_DIR/maple-mono"

@@ -7,6 +7,7 @@ modules:
   install:
     packages:
       - steam
+      - mangohud
 
 - type: files
   files:
@@ -28,11 +29,12 @@ modules:
   include:
     - ../gaming/justfiles
 
-# flatpak module spare (uncomment when needed)
-# - type: default-flatpaks
-#   configurations:
-#     - notify: false
-#       scope: system
-#       install:
-#         - com.heroicgameslauncher.hgl
-#         - net.lutris.Lutris
+# flatpak module
+- type: default-flatpaks
+  configurations:
+    - notify: false
+      scope: system
+      install:
+        - io.github.benjamimgois.goverlay
+        - org.freedesktop.Platform.VulkanLayer.MangoHud//25.08 # goverlay
+        - com.vysp3r.ProtonPlus

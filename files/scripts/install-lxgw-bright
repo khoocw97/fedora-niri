@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+# Query the GitHub API for the latest release asset URLs
+API=$(curl -fsSL https://api.github.com/repos/lxgw/LxgwBright/releases/latest)
+
+GB_URL=$(echo "$API" | grep -oP '"browser_download_url":\s*"\K[^"]+(?=")' | grep 'LXGWBrightGB\.7z$')
+TC_URL=$(echo "$API" | grep -oP '"browser_download_url":\s*"\K[^"]+(?=")' | grep 'LXGWBrightTC\.7z$')
+
+if ! command -v 7z >/dev/null 2>&1; then
+  dnf install -y 7zip
+fi
+
+mkdir -p "$TMP_DIR/lxgw-gb" "$TMP_DIR/lxgw-tc"
+curl -fsSLo "$TMP_DIR/LXGWBrightGB.7z" "$GB_URL"
+curl -fsSLo "$TMP_DIR/LXGWBrightTC.7z" "$TC_URL"
+
+7z x -y -o"$TMP_DIR/lxgw-gb" "$TMP_DIR/LXGWBrightGB.7z" >/dev/null
+7z x -y -o"$TMP_DIR/lxgw-tc" "$TMP_DIR/LXGWBrightTC.7z" >/dev/null
+
+mkdir -p /usr/share/fonts/lxgw-bright
+find "$TMP_DIR/lxgw-gb" "$TMP_DIR/lxgw-tc" -type f \( -name '*.ttf' -o -name '*.otf' \) -exec cp "{}" /usr/share/fonts/lxgw-bright/ \;
+
+fc-cache -f /usr/share/fonts/lxgw-bright
