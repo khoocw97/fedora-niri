@@ -1,8 +1,0 @@
-type: dnf
-repos:
-  cleanup: true
-  copr:
-    - yalter/niri-git
-    - imput/helium
-    - lizardbyte/stable
-    - lihaohong/yazi

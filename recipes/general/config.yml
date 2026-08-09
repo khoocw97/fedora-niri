@@ -10,7 +10,6 @@ modules:
       - install-megacmd
       - install-extest
       - install-maple-mono # font
-      - install-lsfg
 
   - type: script
     snippets:
@@ -27,8 +26,13 @@ modules:
     user:
       enabled:
         - mega-cmd-server
-        - niri-steam
         - udiskie
 
   - type: justfiles
     install: true
+    include:
+      - setup-automount.just
+      - setup-niri.just
+      - setup-opentabletdriver.just
+      - setup-rime.just
+      - setup-shell.just

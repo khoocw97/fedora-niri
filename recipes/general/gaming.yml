@@ -1,0 +1,38 @@
+modules:
+- type: dnf # Game
+  repos:
+    cleanup: true
+    files:
+      - https://negativo17.org/repos/fedora-steam.repo
+  install:
+    packages:
+      - steam
+
+- type: files
+  files:
+    - source: gaming/usr
+      destination: /usr
+    - source: gaming/etc
+      destination: /etc
+
+- type: script
+  scripts:
+    - ../gaming/scripts/install-lsfg
+
+- type: systemd
+  user:
+    enabled:
+      - niri-steam
+
+- type: justfiles
+  include:
+    - ../gaming/justfiles
+
+# flatpak module spare (uncomment when needed)
+# - type: default-flatpaks
+#   configurations:
+#     - notify: false
+#       scope: system
+#       install:
+#         - com.heroicgameslauncher.hgl
+#         - net.lutris.Lutris

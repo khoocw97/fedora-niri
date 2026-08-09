@@ -3,5 +3,4 @@ cosign.private
 /Containerfile
 *.iso
 *.iso-CHECKSUM
-*.bak
-代办.md
+*.md
