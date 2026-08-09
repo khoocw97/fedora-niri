@@ -1,9 +1,9 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 # image will be published to ghcr.io/<user>/<name>
-name: fedora-niri-g
+name: fedora-niri
 # description will be included in the image's metadata
-description: Personal OS
+description: Personal OS - Gaming Edition
 
 base-image: ghcr.io/ublue-os/base-main
 image-version: latest
@@ -11,8 +11,8 @@ image-version: latest
 modules:
   - type: os-release
     properties:
-      NAME: Fedora Niri-G
-      PRETTY_NAME: Fedora Niri-G Atomic
+      NAME: Fedora Niri Gaming
+      PRETTY_NAME: Fedora Niri Atomic (Gaming)
       VARIANT: Niri Edition
       VARIANT_ID: niri
       ID: fedora
@@ -20,7 +20,7 @@ modules:
 
   - from-file: general/niri.yml
   - from-file: general/packages.yml
-  - from-file: general/gaming.yml
+  - from-file: general/gaming.yml  # all gaming stuff
   - from-file: general/flatpak.yml
   - from-file: general/config.yml
 

@@ -27,8 +27,10 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - recipe.yml
-          - recipe-g.yml
+          - recipe: recipes/recipe.yml
+            tag: latest
+          - recipe: recipes/recipe-gaming.yml
+            tag: gaming
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
