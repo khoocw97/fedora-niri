@@ -27,16 +27,19 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - recipe: recipes/recipe.yml
+          # recipe > file
+          - file: recipes/recipe.yml
             tag: latest
-          - recipe: recipes/recipe-gaming.yml
+          - file: recipes/recipe-gaming.yml
             tag: gaming
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.12
         with:
-          recipe: ${{ matrix.recipe }}
+          #recipe: ${{ matrix.recipe }}
+          recipe: ${{ matrix.recipe.file }}
+          destination_tag: ${{ matrix.recipe.tag }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
