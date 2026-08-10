@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# SDL_GameControllerDB has no release assets (it's a single repo file),
-# so pin the download to the latest commit SHA from the GitHub API.
-API=$(curl -fsSL https://api.github.com/repos/mdqinc/SDL_GameControllerDB/commits/master)
-SHA=$(echo "$API" | grep -oP '"sha":\s*"\K[0-9a-f]{40}' | head -1)
+SHA=23e596a01932533f47f967ec5717733076cff635
 URL="https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/$SHA/gamecontrollerdb.txt"
 
 mkdir -p /usr/share/SDL2
