@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -oeux pipefail
+
+# ensure the tool that sets the default theme is present
+if ! rpm -q plymouth-scripts >/dev/null 2>&1; then
+  dnf install -y plymouth-scripts
+fi
+
+plymouth-set-default-theme loader

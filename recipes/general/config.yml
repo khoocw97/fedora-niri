@@ -11,6 +11,7 @@ modules:
       - install-extest
       - install-maple-mono # font
       - install-lxgw-bright # font
+      - setup-plymouth-theme
 
   - type: script
     snippets:
