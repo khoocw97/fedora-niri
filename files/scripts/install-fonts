@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+api_url() {
+  curl -fsSL "https://api.github.com/repos/$1/releases/latest" |
+    grep -oP '"browser_download_url":\s*"\K[^"]+(?=")' | grep "$2"
+}
+
+install_fonts() {
+  local dir=$1
+  mkdir -p /usr/share/fonts/$dir
+  find "$TMP_DIR/$dir" -type f \( -name '*.ttf' -o -name '*.otf' \) -exec cp "{}" /usr/share/fonts/$dir/ \;
+  fc-cache -f /usr/share/fonts/$dir
+}
+
+mkdir -p "$TMP_DIR/maple-mono"
+curl -fsSLo "$TMP_DIR/maple-mono.zip" "$(api_url subframe7536/maple-font 'MapleMono-NF-CN\.zip$')"
+unzip -q "$TMP_DIR/maple-mono.zip" -d "$TMP_DIR/maple-mono"
+install_fonts maple-mono
+
+if ! command -v 7z >/dev/null 2>&1; then
+  dnf install -y 7zip
+fi
+
+mkdir -p "$TMP_DIR/lxgw-gb" "$TMP_DIR/lxgw-tc"
+curl -fsSLo "$TMP_DIR/LXGWBrightGB.7z" "$(api_url lxgw/LxgwBright 'LXGWBrightGB\.7z$')"
+curl -fsSLo "$TMP_DIR/LXGWBrightTC.7z" "$(api_url lxgw/LxgwBright 'LXGWBrightTC\.7z$')"
+7z x -y -o"$TMP_DIR/lxgw-gb" "$TMP_DIR/LXGWBrightGB.7z" >/dev/null
+7z x -y -o"$TMP_DIR/lxgw-tc" "$TMP_DIR/LXGWBrightTC.7z" >/dev/null
+install_fonts lxgw-bright

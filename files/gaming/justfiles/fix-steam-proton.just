@@ -4,14 +4,10 @@ fix-steam-proton ACTION="":
     source /usr/lib/ujust/ujust.sh
     fix_proton_hang() {
         echo "Killing hung Proton processes..."
-        PROTONCORE=(pv-bwrap pressure-vessel reaper explorer.exe rpcss.exe plugplay.exe services.exe svchost.exe winedevice.exe wineserver)
-        for PROG in "${PROTONCORE[@]}"; do
-            killall -9 "$PROG" 2>/dev/null || true
-        done
+        killall -9 pv-bwrap pressure-vessel reaper explorer.exe rpcss.exe plugplay.exe services.exe svchost.exe winedevice.exe wineserver 2>/dev/null || true
         echo "Proton processes killed."
     }
     fix_reset_steam() {
-        source /usr/lib/ujust/ujust.sh
         STEAMPATH="$HOME/.local/share/Steam"
         STEAMFILES=$(ls "$HOME/.local/share/Steam/" | grep -vP "(userdata|compatibilitytools\.d|config|controller_base|steamapps|music)")
         echo "This script will ${b}remove${n} a bunch of files from $STEAMPATH and sign you out of steam!"
@@ -31,8 +27,6 @@ fix-steam-proton ACTION="":
             fi
         done
         sleep 1
-        # bazzite-steam is not available on this image
-        exit 0
     }
     OPTION="{{ ACTION }}"
     if [[ "$OPTION" == "help" ]]; then

@@ -19,53 +19,55 @@ setup-shell ACTION="":
             echo "Not Enabled"
         fi
     }
+    toggle_lines() {
+        local marker="$1" action="$2"
+        shift 2
+        sed -i -e "/^# $marker$/d" "$RC"
+        for line in "$@"; do
+            grep -Fxv -- "$line" "$RC" > "$RC.tmp" && mv "$RC.tmp" "$RC"
+        done
+        if [[ "$action" == "enable" ]]; then
+            printf '\n# %s\n' "$marker" >> "$RC"
+            for line in "$@"; do
+                printf '%s\n' "$line" >> "$RC"
+            done
+        fi
+    }
     enable_starship() {
-        echo "Enabling starship..."
-        if grep -qFx 'eval "$(starship init bash)"' "$RC"; then
-            echo "Already enabled, skipped"
+        if grep -qFx "$STARSHIP_LINE" "$RC"; then
+            echo "Starship already enabled, skipped"
         else
-            sed -i \
-                -e '/^# starship prompt$/d' \
-                -e '/^eval "$(starship init bash)"$/d' \
-                "$RC"
-
-            printf '\n# starship prompt\n%s\n' "$STARSHIP_LINE" >> "$RC"
-
+            toggle_lines "starship prompt" enable "$STARSHIP_LINE"
             echo "Starship enabled, reopen terminal"
         fi
     }
     enable_zoxide() {
-        echo "Enabling zoxide..."
-        if grep -qFx 'eval "$(zoxide init bash)"' "$RC"; then
-            echo "Already enabled, skipped"
+        if grep -qFx "$ZOXIDE_LINE" "$RC"; then
+            echo "Zoxide already enabled, skipped"
         else
-            sed -i \
-                -e '/^# zoxide init$/d' \
-                -e '/^eval "$(zoxide init bash)"$/d' \
-                "$RC"
-
-            printf '\n# zoxide init\n%s\n' "$ZOXIDE_LINE" >> "$RC"
-
+            toggle_lines "zoxide init" enable "$ZOXIDE_LINE"
             echo "Zoxide enabled, reopen terminal"
         fi
     }
+    enable_aliases() {
+        if grep -qF 'alias ll=' "$RC"; then
+            echo "Aliases already enabled, skipped"
+        else
+            toggle_lines "eza & bat aliases" enable "${ALIASES[@]}"
+            echo "Aliases enabled, reopen terminal"
+        fi
+    }
     disable_starship() {
-        echo "Disabling starship..."
-        sed -i \
-            -e '/^# starship prompt$/d' \
-            -e '/^eval "$(starship init bash)"$/d' \
-            "$RC"
-
+        toggle_lines "starship prompt" disable "$STARSHIP_LINE"
         echo "Starship disabled, reopen terminal"
     }
     disable_zoxide() {
-        echo "Disabling zoxide..."
-        sed -i \
-            -e '/^# zoxide init$/d' \
-            -e '/^eval "$(zoxide init bash)"$/d' \
-            "$RC"
-
+        toggle_lines "zoxide init" disable "$ZOXIDE_LINE"
         echo "Zoxide disabled, reopen terminal"
+    }
+    disable_aliases() {
+        toggle_lines "eza & bat aliases" disable "${ALIASES[@]}"
+        echo "Aliases disabled, reopen terminal"
     }
     ALIASES=(
         "alias ll='eza -l --icons=auto --group-directories-first'"
@@ -79,36 +81,6 @@ setup-shell ACTION="":
         "alias rm='rm -Iv'"
         "alias df='df -h'"
     )
-    remove_line() {
-        grep -Fxv -- "$1" "$RC" > "$RC.tmp" && mv "$RC.tmp" "$RC"
-    }
-    enable_aliases() {
-        echo "Enabling eza & bat aliases..."
-        if grep -qF 'alias ll=' "$RC"; then
-            echo "Already enabled, skipped"
-        else
-            sed -i -e '/^# eza & bat aliases$/d' "$RC"
-            for alias_line in "${ALIASES[@]}"; do
-                remove_line "$alias_line"
-            done
-
-            printf '\n# eza & bat aliases\n' >> "$RC"
-            for alias_line in "${ALIASES[@]}"; do
-                printf '%s\n' "$alias_line" >> "$RC"
-            done
-
-            echo "Aliases enabled, reopen terminal"
-        fi
-    }
-    disable_aliases() {
-        echo "Disabling eza & bat aliases..."
-        sed -i -e '/^# eza & bat aliases$/d' "$RC"
-        for alias_line in "${ALIASES[@]}"; do
-            remove_line "$alias_line"
-        done
-
-        echo "Aliases disabled, reopen terminal"
-    }
     OPTION="{{ ACTION }}"
     if [[ "$OPTION" == "help" ]]; then
         echo "Usage: ujust setup-shell <option>"

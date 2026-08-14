@@ -72,7 +72,7 @@ setup-rime ACTION="":
     }
 
     update_rime() {
-        echo "更新 Rime 配置（从 Git 拉取最fcitx5 -d > /dev/null 2>&1新）..."
+        echo "更新 Rime 配置（从 Git 拉取最新）..."
         clone_plum || return 1
         cd "$TMP_DIR/plum"
         rime_dir="$RIME_DIR" bash rime-install iDvel/rime-ice
