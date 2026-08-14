@@ -10,16 +10,17 @@ api_url() {
 }
 
 install_fonts() {
-  local dir=$1
-  mkdir -p /usr/share/fonts/$dir
-  find "$TMP_DIR/$dir" -type f \( -name '*.ttf' -o -name '*.otf' \) -exec cp "{}" /usr/share/fonts/$dir/ \;
-  fc-cache -f /usr/share/fonts/$dir
+  local dest=$1
+  shift
+  mkdir -p /usr/share/fonts/$dest
+  find "$@" -type f \( -name '*.ttf' -o -name '*.otf' \) -exec cp "{}" /usr/share/fonts/$dest/ \;
+  fc-cache -f /usr/share/fonts/$dest
 }
 
 mkdir -p "$TMP_DIR/maple-mono"
 curl -fsSLo "$TMP_DIR/maple-mono.zip" "$(api_url subframe7536/maple-font 'MapleMono-NF-CN\.zip$')"
 unzip -q "$TMP_DIR/maple-mono.zip" -d "$TMP_DIR/maple-mono"
-install_fonts maple-mono
+install_fonts maple-mono "$TMP_DIR/maple-mono"
 
 if ! command -v 7z >/dev/null 2>&1; then
   dnf install -y 7zip
@@ -30,4 +31,4 @@ curl -fsSLo "$TMP_DIR/LXGWBrightGB.7z" "$(api_url lxgw/LxgwBright 'LXGWBrightGB\
 curl -fsSLo "$TMP_DIR/LXGWBrightTC.7z" "$(api_url lxgw/LxgwBright 'LXGWBrightTC\.7z$')"
 7z x -y -o"$TMP_DIR/lxgw-gb" "$TMP_DIR/LXGWBrightGB.7z" >/dev/null
 7z x -y -o"$TMP_DIR/lxgw-tc" "$TMP_DIR/LXGWBrightTC.7z" >/dev/null
-install_fonts lxgw-bright
+install_fonts lxgw-bright "$TMP_DIR/lxgw-gb" "$TMP_DIR/lxgw-tc"
