@@ -40,7 +40,7 @@ opentabletdriver ACTION="":
     }
     uninstall_opentabletdriver() {
         echo "Uninstalling OpenTabletDriver..."
-        sudo -A rm /etc/udev/rules.d/71-opentabletdriver.rules && \
+        sudo rm /etc/udev/rules.d/71-opentabletdriver.rules && \
         flatpak --system remove -y flathub net.opentabletdriver.OpenTabletDriver && \
         systemctl disable --user --now opentabletdriver.service && \
         rpm-ostree kargs --delete-if-present=modprobe.blacklist=hid_uclogic --delete-if-present=modprobe.blacklist=wacom

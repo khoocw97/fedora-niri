@@ -1,7 +1,7 @@
 name: Build ISO
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 支持在 GitHub Actions 网页端手动点击按钮触发
     inputs:
       image_tag:
         description: "Select image variant"
@@ -16,7 +16,6 @@ env:
   # 填写你的 GHCR 容器信息
   IMAGE_NAME: "fedora-niri"
   IMAGE_REPO: "ghcr.io/khoocw97"
-  IMAGE_TAG: "latest"
   VERSION: "44"               # Fedora 版本号
   VARIANT: "offline"          # offline 会把镜像打包进 ISO，适合离线安装；如果填 online 则是网络安装包
   ARCH: "x86_64"
@@ -40,16 +39,16 @@ jobs:
           arch: ${{ env.ARCH }}
           image_name: ${{ env.IMAGE_NAME }}
           image_repo: ${{ env.IMAGE_REPO }}
-          image_tag: ${{ env.IMAGE_TAG }}
+          image_tag: ${{ inputs.image_tag }}
           version: ${{ env.VERSION }}
           variant: ${{ env.VARIANT }}
-          iso_name: ${{ env.IMAGE_NAME }}-${{ env.IMAGE_TAG }}-${{ env.VERSION }}.iso
+          iso_name: ${{ env.IMAGE_NAME }}-${{ inputs.image_tag }}-${{ env.VERSION }}.iso
 
       - name: Upload ISO as artifact
         id: upload
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ env.IMAGE_NAME }}-${{ env.IMAGE_TAG }}-${{ env.VERSION }}-ISO
+          name: ${{ env.IMAGE_NAME }}-${{ inputs.image_tag }}-${{ env.VERSION }}-ISO
           path: |
             ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}
             ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}-CHECKSUM

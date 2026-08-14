@@ -7,7 +7,7 @@ binds {
     Mod+G hotkey-overlay-title="Helium Browser" { spawn "helium"; }
     Mod+N hotkey-overlay-title="Text-Editor" { spawn "flatpak" "run" "org.gnome.TextEditor"; }
     Mod+O hotkey-overlay-title="OBS-Studio" { spawn "flatpak" "run" "com.obsproject.Studio"; }
-    Mod+P hotkey-overlay-title="Print Script" { spawn "kitty" "--class" "PrintTerminal" "--" "/home/weng/.local/bin/print_pdf.sh"; }
+    Mod+P hotkey-overlay-title="Print Script" { spawn "kitty" "--class" "PrintTerminal" "--" "～/.local/bin/print_pdf.sh"; }
 
 
     // --------------------------------------------------------------
@@ -44,7 +44,7 @@ binds {
     // --------------------------------------------------------------
 
     // System Setting
-    Mod+Shift+Slash { spawn-sh "python3 /usr/share/niri-config/niri_parse_keybinds.py -i ~/.config/niri/keybinds.kdl | fuzzel -d -w 100 -f monospace --match-mode exact"; }
+    Mod+Shift+Slash { spawn-sh "python3 /usr/share/niri-config/niri_parse_keybinds.py -i ~/.config/niri/binds.kdl | fuzzel -d -w 100 -f monospace --match-mode exact"; }
     Mod+Shift+P { power-off-monitors; }
     XF86PowerOff { spawn "systemctl" "poweroff"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }

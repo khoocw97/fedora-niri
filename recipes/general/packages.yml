@@ -15,6 +15,7 @@ modules:
       - ly # login manager
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
+      - xdg-user-dirs # xdg user dirs
       - bibata-cursor-themes
       - helium-bin
       - sunshine
