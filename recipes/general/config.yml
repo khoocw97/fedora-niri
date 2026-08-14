@@ -9,8 +9,7 @@ modules:
       - setup-rime-build
       - install-megacmd
       - install-extest
-      - install-maple-mono # font
-      - install-lxgw-bright # font
+      - install-fonts # fonts (maple-mono + lxgw-bright)
       - setup-plymouth-theme
 
   - type: script
