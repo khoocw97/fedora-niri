@@ -1,7 +1,16 @@
 name: Build ISO
 
 on:
-  workflow_dispatch: # 支持在 GitHub Actions 网页端手动点击按钮触发
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Select image variant"
+        required: true
+        default: "latest"
+        type: choice
+        options:
+          - latest
+          - gaming
 
 env:
   # 填写你的 GHCR 容器信息
