@@ -28,6 +28,7 @@ modules:
     user:
       enabled:
         - mega-cmd-server
+        - polkit-agent
         - udiskie
 
   - type: justfiles

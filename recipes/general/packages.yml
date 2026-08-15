@@ -16,12 +16,13 @@ modules:
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
       - xdg-user-dirs # xdg user dirs
+      - polkit-kde
       - bibata-cursor-themes
       - helium-bin
       - sunshine
       - kitty
       - yazi
-      - nautilus
+      - nemo
       - kdeconnectd
       - udiskie
 

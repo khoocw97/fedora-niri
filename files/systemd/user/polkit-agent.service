@@ -1,0 +1,13 @@
+[Unit]
+Description=Polkit Authentication Agent
+PartOf=graphical-session.target
+
+[Service]
+Type=dbus
+ExecStart=/usr/libexec/kf6/polkit-kde-authentication-agent-1
+BusName=org.kde.polkit-kde-authentication-agent-1
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
