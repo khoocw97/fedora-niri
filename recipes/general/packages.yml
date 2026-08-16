@@ -74,6 +74,18 @@ modules:
       - ibus-typing-booster
       - python3-ibus
 
+- type: dnf # virtualization (libvirt modular daemons preset-enabled at install; QEMU, TPM, UEFI firmware, default NAT network)
+  repos:
+    cleanup: true
+  install:
+    packages:
+      - libvirt
+      - qemu-kvm
+      - swtpm
+      - swtpm-tools
+      - edk2-ovmf
+      - dnsmasq
+
 - type: dnf # font
   repos:
     cleanup: true

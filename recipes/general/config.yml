@@ -39,3 +39,4 @@ modules:
       - setup-opentabletdriver.just
       - setup-rime.just
       - setup-shell.just
+      - setup-virtualization.just
