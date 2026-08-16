@@ -10,6 +10,27 @@ modules:
       - gamescope
       - mangohud
 
+- type: dnf # terra: mesa (gaming) + steam-notif-daemon
+  repos:
+    cleanup: true
+    files:
+      - terra.repo # files/dnf/terra.repo
+      - terra-mesa.repo # files/dnf/terra-mesa.repo
+
+  install:
+    packages:
+      - steam-notif-daemon
+
+  replace: # swap base mesa (negativo17 1:26.1.4-4) for terra mesa (1:26.1.6-3, OGC patches)
+    - from-repo: terra-mesa
+      packages:
+        - mesa-dri-drivers
+        - mesa-vulkan-drivers
+        - mesa-libGL
+        - mesa-libEGL
+        - mesa-libgbm
+        - mesa-filesystem
+
 - type: files
   files:
     - source: gaming/usr
