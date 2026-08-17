@@ -39,7 +39,7 @@ To rebase an existing Fedora Atomic installation to the latest build:
 This project builds upon ideas, configurations, and build recipes from the open-source community. Special thanks to:
 
 
-* **[NyxNiri](https://github.com/ech678/NyxNiri)** 
+* **[DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell)** & **[NyxNiri](https://github.com/ech678/NyxNiri)**
   - Referenced for Niri window manager configurations.
 
 * **[MizukiOS](https://github.com/koitorin/MizukiOS)** 
