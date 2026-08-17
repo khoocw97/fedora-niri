@@ -39,7 +39,7 @@
 本项目依托开源社区的力量，在开发过程中借鉴了以下优秀项目的思路与代码，在此诚挚致谢：
 
 
-* **[NyxNiri](https://github.com/ech678/NyxNiri)** 
+* **[DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell)** & **[NyxNiri](https://github.com/ech678/NyxNiri)**
   - 提供了 Niri 窗口管理器的配置参考。
 
 * **[MizukiOS](https://github.com/koitorin/MizukiOS)** 
