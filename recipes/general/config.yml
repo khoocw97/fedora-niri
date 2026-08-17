@@ -9,6 +9,7 @@ modules:
       - setup-rime-build
       - install-megacmd
       - install-extest
+      - setup-firewall # kdeconnect ports
       - install-fonts # fonts (maple-mono + lxgw-bright)
       - setup-plymouth-theme
 

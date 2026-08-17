@@ -3,4 +3,5 @@ cosign.private
 /Containerfile
 *.iso
 *.iso-CHECKSUM
-*.md
+*代办.md
+*AGENTS.md

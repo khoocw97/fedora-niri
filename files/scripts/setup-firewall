@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# open kdeconnect ports (1714-1764/tcp+udp) via the firewalld service definition
+firewall-offline-cmd --zone=home --add-service=kdeconnect
+
+# open localsend ports (53317/tcp+udp); no firewalld service file exists for it
+firewall-offline-cmd --zone=home --add-port=53317/tcp
+firewall-offline-cmd --zone=home --add-port=53317/udp
