@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO="PapirusDevelopmentTeam/papirus-icon-theme"
+TAG="master"
+DEST=/usr/share/icons
+THEMES="Papirus Papirus-Dark Papirus-Light"
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+dnf remove -y papirus-icon-theme 2>/dev/null || true
+
+curl -fsSLo "$TMP_DIR/papirus.tar.gz" "https://github.com/$REPO/archive/$TAG.tar.gz"
+tar -xzf "$TMP_DIR/papirus.tar.gz" -C "$TMP_DIR"
+
+mkdir -p "$DEST"
+for theme in $THEMES; do
+  rm -rf "$DEST/$theme"
+  cp -R "$TMP_DIR/$REPO-$TAG/$theme" "$DEST"
+  cp -f "$TMP_DIR/$REPO-$TAG/AUTHORS" "$TMP_DIR/$REPO-$TAG/LICENSE" "$DEST/$theme" || true
+  gtk-update-icon-cache -q "$DEST/$theme" || true
+done

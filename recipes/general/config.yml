@@ -11,6 +11,7 @@ modules:
       - install-extest
       - setup-firewall # kdeconnect ports
       - install-fonts # fonts (maple-mono + lxgw-bright)
+      - install-papirus # latest papirus from upstream (fedora package is outdated)
       - setup-plymouth-theme
 
   - type: script
