@@ -37,6 +37,7 @@ modules:
     install: true
     include:
       - setup-automount.just
+      - pick-icon.just
       - setup-niri.just
       - setup-opentabletdriver.just
       - setup-rime.just
