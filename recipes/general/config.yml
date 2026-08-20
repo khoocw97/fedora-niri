@@ -24,7 +24,7 @@ modules:
     system:
       enabled:
         - ly.service
-        - setup-grub-theme.service
+        - hide-grub.service
 
       disabled:
         - getty@tty2.service

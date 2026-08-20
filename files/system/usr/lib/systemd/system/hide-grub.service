@@ -1,0 +1,11 @@
+[Unit]
+Description=Hide GRUB menu (timeout_style=hidden, timeout=5)
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'mkdir -p /boot/grub2 && printf "set timeout_style=hidden\nset timeout=5\n" > /boot/grub2/user.cfg'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
