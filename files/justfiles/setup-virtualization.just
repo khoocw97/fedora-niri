@@ -37,11 +37,13 @@ setup-virtualization ACTION="":
             sudo mkdir /var/lib/swtpm-localca
           fi
           sudo chown tss /var/lib/swtpm-localca
-          sudo restorecon -rv /var/lib/libvirt
-          sudo restorecon -rv /var/log/libvirt
           echo "Giving qemu access to read ISO files from $HOME"
           sudo setfacl -m u:qemu:rx $HOME
         fi
+        echo "Fixing libvirt SELinux log contexts"
+        sudo restorecon -RFv /var/lib/libvirt
+        sudo restorecon -RFv /var/log/libvirt
+        sudo systemctl restart virtlogd
         echo "Setting KVM kernel args"
         rpm-ostree kargs \
         --append-if-missing="kvm.ignore_msrs=1" \
