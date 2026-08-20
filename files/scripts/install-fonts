@@ -27,3 +27,7 @@ curl -fsSLo "$TMP_DIR/LXGWBrightTC.7z" "https://github.com/lxgw/LxgwBright/relea
 7z x -y -o"$TMP_DIR/lxgw-gb" "$TMP_DIR/LXGWBrightGB.7z" >/dev/null
 7z x -y -o"$TMP_DIR/lxgw-tc" "$TMP_DIR/LXGWBrightTC.7z" >/dev/null
 install_fonts lxgw-bright "$TMP_DIR/lxgw-gb" "$TMP_DIR/lxgw-tc"
+
+mkdir -p "$TMP_DIR/lxgw-neoxihei"
+curl -fsSLo "$TMP_DIR/lxgw-neoxihei/LXGWNeoXiHeiPlus.ttf" "https://github.com/lxgw/LxgwNeoXiHei/releases/latest/download/LXGWNeoXiHeiPlus.ttf"
+install_fonts lxgw-neoxihei "$TMP_DIR/lxgw-neoxihei"
