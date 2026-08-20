@@ -19,12 +19,12 @@ modules:
       - "rm -rf /usr/share/doc/*"
       - "rm -rf /usr/src/*"
       - "mkdir -p /etc/skel/.config/niri && cp -r /usr/share/niri-config/* /etc/skel/.config/niri/" # 新用户自动带 niri 配置
-      - "grep -q '^GRUB_THEME=' /etc/default/grub || echo 'GRUB_THEME=\"/usr/share/grub/themes/Elegant-wave-window-left-dark/theme.txt\"' >> /etc/default/grub" # Elegant grub 主题
 
   - type: systemd
     system:
       enabled:
         - ly.service
+        - setup-grub-theme.service
 
       disabled:
         - getty@tty2.service
