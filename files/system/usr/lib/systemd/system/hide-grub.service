@@ -1,10 +1,10 @@
 [Unit]
-Description=Hide GRUB menu (timeout_style=hidden, timeout=5)
+Description=Hide GRUB menu (timeout=0, boot directly to plymouth)
 After=local-fs.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'mkdir -p /boot/grub2 && printf "set timeout_style=hidden\nset timeout=5\n" > /boot/grub2/user.cfg'
+ExecStart=/bin/sh -c 'mkdir -p /boot/grub2 && printf "set timeout=0\nset timeout_style=hidden\n" > /boot/grub2/user.cfg'
 RemainAfterExit=yes
 
 [Install]
