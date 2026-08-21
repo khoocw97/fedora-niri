@@ -16,7 +16,6 @@ modules:
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
       - xdg-user-dirs # xdg user dirs
-      - webkit2gtk4.1
       - polkit-kde
       - power-profiles-daemon
       - bibata-cursor-themes
@@ -76,7 +75,7 @@ modules:
       - ibus-typing-booster
       - python3-ibus
 
-- type: dnf # virtualization (libvirt modular daemons preset-enabled at install; QEMU, TPM, UEFI firmware, default NAT network)
+- type: dnf # virtualization
   repos:
     cleanup: true
   install:

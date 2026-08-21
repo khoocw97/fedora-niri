@@ -9,16 +9,16 @@ modules:
       - setup-rime-build
       - install-megacmd
       - install-extest
-      - setup-firewall # kdeconnect ports
-      - install-fonts # fonts (maple-mono + lxgw-bright)
-      - install-papirus # latest papirus from upstream (fedora package is outdated)
+      - setup-firewall
+      - install-fonts
+      - install-papirus
       - setup-plymouth-theme
 
   - type: script
     snippets:
       - "rm -rf /usr/share/doc/*"
       - "rm -rf /usr/src/*"
-      - "mkdir -p /etc/skel/.config/niri && cp -r /usr/share/niri-config/* /etc/skel/.config/niri/" # 新用户自动带 niri 配置
+      - "mkdir -p /etc/skel/.config/niri && cp -r /usr/share/niri-config/* /etc/skel/.config/niri/"
 
   - type: systemd
     system:
