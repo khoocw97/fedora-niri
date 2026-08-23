@@ -3,6 +3,11 @@
 # Nvidia crash fix
 export __GL_CONSTANT_FRAME_RATE_HINT=3
 
+# Fix Chinese Input
+export XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx
+export SDL_IM_MODULE=fcitx
+
 if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
   # https://github.com/Supreeeme/extest (https://github.com/bazzite-org/extest)
   # Extest is a drop in replacement for the X11 XTEST extension.

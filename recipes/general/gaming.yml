@@ -17,9 +17,9 @@ modules:
       - terra.repo # files/dnf/terra.repo
       - terra-mesa.repo # files/dnf/terra-mesa.repo
 
-  install:
-    packages:
-      - steam-notif-daemon
+  #install:
+  #  packages:
+  #    - steam-notif-daemon
 
   replace: # swap base mesa (negativo17 1:26.1.4-4) for terra mesa (1:26.1.6-3, OGC patches)
     - from-repo: terra-mesa
