@@ -5,5 +5,7 @@ set -euo pipefail
 # dnf install -y --setopt=tsflags=noscripts https://github.com/PancakeTAS/lsfg-vk/releases/download/v1.0.0/lsfg-vk-1.0.0.x86_64.rpm
 
 # --- v2.0 (builds.lsfg-vk.dev) ---
-dnf install -y qt6-qtdeclarative qt6-qtbase
-curl -fL https://builds.lsfg-vk.dev/lsfg-vk-2.0.0-rc1.tar.xz | tar -xJf - -C /usr
+dnf install -y qt6-qtdeclarative qt6-qtbase || true
+curl -fL --retry 3 -o /tmp/lsfg-vk.tar.xz https://builds.lsfg-vk.dev/lsfg-vk-2.0.0-rc1.tar.xz
+tar -xvf /tmp/lsfg-vk.tar.xz -C /usr
+rm -f /tmp/lsfg-vk.tar.xz
