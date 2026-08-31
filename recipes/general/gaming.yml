@@ -9,6 +9,7 @@ modules:
       - steam
       - gamescope
       - mangohud
+      - vulkan-tools
 
 - type: dnf # terra: mesa (gaming) + steam-notif-daemon
   repos:
