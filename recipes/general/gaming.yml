@@ -41,7 +41,7 @@ modules:
 
 - type: script
   scripts:
-    - ../gaming/scripts/install-lsfg
+    #- ../gaming/scripts/install-lsfg
     - ../gaming/scripts/install-sdl-gamecontroller
 
 - type: systemd
