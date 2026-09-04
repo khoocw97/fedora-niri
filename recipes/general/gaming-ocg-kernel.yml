@@ -1,10 +1,8 @@
----
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-
 # https://github.com/ublue-os/akmods
-- type: akmods
-  base: ogc
-  install:
-    - common # default kmods (openrazer, v4l2loopback, xone, xpadneo, wl)
+modules:
+  - type: akmods
+    base: ogc
+    install:
+      - common # default kmods (openrazer, v4l2loopback, xone, xpadneo, wl)
       # - extra
       # - nvidia-open
