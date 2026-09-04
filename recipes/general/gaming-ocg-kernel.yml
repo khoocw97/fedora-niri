@@ -1,8 +1,0 @@
-# https://github.com/ublue-os/akmods
-modules:
-  - type: akmods
-    base: ogc
-    install:
-      - common # default kmods (openrazer, v4l2loopback, xone, xpadneo, wl)
-      # - extra
-      # - nvidia-open

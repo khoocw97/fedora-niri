@@ -43,6 +43,7 @@ modules:
   scripts:
     #- ../gaming/scripts/install-lsfg
     - ../gaming/scripts/install-sdl-gamecontroller
+    - ../gaming/scripts/swap-ocg-kernel
 
 - type: systemd
   user:
