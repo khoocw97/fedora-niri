@@ -27,6 +27,10 @@ modules:
   - from-file: general/flatpak.yml
   - from-file: general/config.yml
 
+  - type: akmods # OGC kernel
+    base: ogc
+    install: []
+
   - type: initramfs # regenerate initramfs at build time so plymouth theme changes land in the image
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
