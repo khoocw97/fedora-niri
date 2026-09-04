@@ -24,7 +24,6 @@ modules:
   - from-file: general/niri.yml
   - from-file: general/packages.yml
   - from-file: general/gaming.yml  # all gaming stuff
-  - from-file: general/gaming-ocg-kernel.yml
   - from-file: general/flatpak.yml
   - from-file: general/config.yml
 
