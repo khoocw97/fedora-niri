@@ -2,6 +2,7 @@ type: dnf
 install:
   packages:
     - niri
+    - xwayland-satellite-0.8.1-2
     - noctalia
   exclude:
     - alacritty
