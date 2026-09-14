@@ -9,11 +9,12 @@ configurations:
       - io.github.flattool.Warehouse
       - it.mijorus.gearlever # manage AppImages
       - io.missioncenter.MissionCenter
+      - com.protonvpn.www
 
       - org.mozilla.firefox
       - com.google.Chrome
       - org.gnome.Loupe # imageview
-      - org.gnome.Showtime # video player
+      - io.github.diegopvlk.Cine # video player
 
       # obs
       - com.obsproject.Studio
