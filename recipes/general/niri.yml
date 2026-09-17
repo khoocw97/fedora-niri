@@ -4,9 +4,9 @@ install:
     - niri
     - xwayland-satellite-0.8.1-1.fc44
     - noctalia
+
   exclude:
     - alacritty
     - waybar
     - mako
     - swaylock
-
