@@ -16,6 +16,8 @@ modules:
       - ly # login manager
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
+      - qt6ct
+      - kf6-qqc2-desktop-style # org.kde.desktop QML style for kdeconnect-app etc.
       - xdg-user-dirs # xdg user dirs
       - polkit-kde
       - power-profiles-daemon
