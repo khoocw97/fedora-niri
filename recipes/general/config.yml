@@ -20,6 +20,7 @@ modules:
       - "rm -rf /usr/src/*"
       - "mkdir -p /etc/skel/.config/niri && cp -r /usr/share/niri-config/* /etc/skel/.config/niri/"
       - "ln -sf /etc/sddm/themes/simple-sddm/theme.conf /usr/share/sddm/themes/simple-sddm/theme.conf"
+      - "systemctl set-default graphical.target"
 
   - type: systemd
     system:
