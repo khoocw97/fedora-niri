@@ -13,7 +13,10 @@ modules:
   install:
     packages:
       - starship
-      - ly # login manager
+      - sddm # login manager
+      - qt6-qtdeclarative
+      - qt6-qtquickcontrols2
+      - sddm-themes
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
       - qt6ct

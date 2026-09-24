@@ -19,11 +19,12 @@ modules:
       - "rm -rf /usr/share/doc/*"
       - "rm -rf /usr/src/*"
       - "mkdir -p /etc/skel/.config/niri && cp -r /usr/share/niri-config/* /etc/skel/.config/niri/"
+      - "ln -sf /etc/sddm/themes/simple-sddm/theme.conf /usr/share/sddm/themes/simple-sddm/theme.conf"
 
   - type: systemd
     system:
       enabled:
-        - ly.service
+        - sddm.service
         - hide-grub.service
 
       disabled:
