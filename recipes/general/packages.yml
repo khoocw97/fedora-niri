@@ -11,6 +11,7 @@ modules:
 
   install:
     packages:
+      - starship
       - sddm # login manager
       - qt6-qtdeclarative
       - qt6-qtquickcontrols2
@@ -44,7 +45,6 @@ modules:
     cleanup: true
   install:
     packages:
-      - starship
       - ripgrep
       - fd-find
       - chezmoi
