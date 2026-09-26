@@ -7,12 +7,10 @@ modules:
       - lihaohong/yazi
       - imput/helium
       - atim/starship
-      - peterwu/rendezvous
       - khoocw97/software
 
   install:
     packages:
-      - starship
       - sddm # login manager
       - qt6-qtdeclarative
       - qt6-qtquickcontrols2
@@ -20,9 +18,7 @@ modules:
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
       - qt6ct
-      - kf6-qqc2-desktop-style # org.kde.desktop QML style for kdeconnect-app etc.
       - xdg-user-dirs # xdg user dirs
-      - polkit-kde
       - power-profiles-daemon
       - bibata-cursor-themes
       - helium-bin
@@ -41,12 +37,14 @@ modules:
     packages:
       - firefox
       - firefox-langpacks
+      - nvtop
 
 - type: dnf # CLI tools
   repos:
     cleanup: true
   install:
     packages:
+      - starship
       - ripgrep
       - fd-find
       - chezmoi
