@@ -22,6 +22,7 @@ modules:
       - xdg-user-dirs # xdg user dirs
       - power-profiles-daemon
       - bibata-cursor-themes
+      - meld
       - helium-bin
       - sunshine
       - kitty
