@@ -21,6 +21,7 @@ modules:
       - qt6ct
       - xdg-user-dirs # xdg user dirs
       - power-profiles-daemon
+      - fuzzel
       - bibata-cursor-themes
       - meld
       - helium-bin
