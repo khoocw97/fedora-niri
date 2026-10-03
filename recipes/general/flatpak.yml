@@ -13,7 +13,6 @@ configurations:
 
       - org.mozilla.firefox
       - com.google.Chrome
-      - org.gnome.Loupe # imageview
       - io.github.diegopvlk.Cine # video player
 
       # obs
