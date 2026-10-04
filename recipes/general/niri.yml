@@ -2,7 +2,7 @@ type: dnf
 install:
   packages:
     - niri
-    - xwayland-satellite-0.8.1-1.fc44
+    # - xwayland-satellite-0.8.1-1.fc44 # pass to packages.yml for latest ver.
     - noctalia
 
   exclude:
@@ -10,3 +10,4 @@ install:
     - waybar
     - mako
     - swaylock
+    - xwayland-satellite
