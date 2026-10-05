@@ -11,7 +11,6 @@ modules:
 
   install:
     packages:
-      - xwayland-satellite # get the latest ver. to fix steam issue
       - starship
       - sddm # login manager
       - qt6-qtdeclarative
@@ -37,7 +36,6 @@ modules:
       - vm-curator # vm tui
       - umbriel
       - xdg-desktop-portal-umbriel
-
   remove:
     packages:
       - firefox

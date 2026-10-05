@@ -1,8 +1,12 @@
 type: dnf
+repos:
+  cleanup: true
+  copr:
+    - khoocw97/software
 install:
   packages:
     - niri
-    # - xwayland-satellite-0.8.1-1.fc44 # pass to packages.yml for latest ver.
+    - xwayland-satellite
     - noctalia
 
   exclude:
@@ -10,4 +14,3 @@ install:
     - waybar
     - mako
     - swaylock
-    - xwayland-satellite
