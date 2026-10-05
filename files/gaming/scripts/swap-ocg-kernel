@@ -1,25 +1,35 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
-# 1. 移除原 main 内核 (同 MizukiOS/files/scripts/swap-kernel.sh:3-5)
-for pkg in kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra; do
-  rpm --erase "${pkg}" --nodeps || true
-done
+# remove kernel
+mapfile -t OLD_KERNELS < <(rpm -qa | grep -E '^kernel(-core|-modules|-modules-core|-modules-extra)?-[0-9]' || true)
+if [ "${#OLD_KERNELS[@]}" -gt 0 ]; then
+  rpm --erase --allmatches --nodeps "${OLD_KERNELS[@]}"
+fi
+rm -rf /usr/lib/modules/*
 
-# 2. 禁用 rpm-ostree/dracut 钩子 (MizukiOS:7-11)
+# disable rpm-ostree/dracut hook
 pushd /usr/lib/kernel/install.d
+cp 05-rpmostree.install /tmp/05-rpmostree.install.bak
+cp 50-dracut.install /tmp/50-dracut.install.bak
 printf '%s\n' '#!/bin/sh' 'exit 0' > 05-rpmostree.install
 printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
 chmod +x 05-rpmostree.install 50-dracut.install
 popd
 
-# 3. 拉取 ogc 内核缓存 (已验证 ghcr.io/ublue-os/akmods:ogc-44 的 /kernel-rpms/kernel-7.2.3-ogc*)
+# pull kernel
 skopeo copy --retry-times 3 docker://ghcr.io/ublue-os/akmods:ogc-44 dir:/tmp/akmods
 AKMODS_TGZ=$(jq -r '.layers[].digest' /tmp/akmods/manifest.json | cut -d: -f2)
 tar -xzf "/tmp/akmods/${AKMODS_TGZ}" -C /tmp
 
-# 4. 安装 ogc 内核
+# install ogc kernel
 dnf -y install /tmp/kernel-rpms/*.rpm
+rm -rf /tmp/akmods /tmp/kernel-rpms
 
-# 可选验证
-rpm -qa | grep -E '^kernel-7\.2\.3-ogc' || true
+# restore hooks
+cp /tmp/05-rpmostree.install.bak /usr/lib/kernel/install.d/05-rpmostree.install
+cp /tmp/50-dracut.install.bak /usr/lib/kernel/install.d/50-dracut.install
+rm -f /tmp/05-rpmostree.install.bak /tmp/50-dracut.install.bak
+
+rpm -qa | grep -E '^kernel.*-ogc'
+[ "$(ls -1 /usr/lib/modules | wc -l)" -eq 1 ]
