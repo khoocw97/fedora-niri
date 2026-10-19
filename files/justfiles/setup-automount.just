@@ -44,9 +44,7 @@ automount ACTION="":
         disable_automount
         exit 0
     elif [[ -z "$OPTION" ]]; then
-        current_status=$(get_current_status)
-        echo "${bold}Automounting ${normal}"
-        echo "Current status: $current_status"
+        echo "${bold}Current status:${normal} $(get_current_status)"
         OPTION=$(ugum choose "Enable" "Disable" "Exit without changes")
         case "$OPTION" in
             "Enable")

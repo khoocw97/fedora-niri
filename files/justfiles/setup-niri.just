@@ -1,36 +1,10 @@
-# 管理 niri 定制配置（安装/备份/还原/清除备份）。选项: status | install | backup | restore | clear
+# 管理 niri 定制配置（备份/还原/清除备份）。选项: backup | restore | clear
 setup-niri ACTION="":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
     NIRI_DIR="$HOME/.config/niri"
-    get_status_token() {
-        if [ -d "$NIRI_DIR" ]; then
-            echo "install"
-        else
-            echo "uninstall"
-        fi
-    }
-    get_current_status() {
-        if [[ "$(get_status_token)" == "install" ]]; then
-            echo "已安装"
-        else
-            echo "未安装"
-        fi
-    }
     find_backups() {
         find "$HOME/.config" -maxdepth 1 -type d -name 'niri.bak.*' | sort
-    }
-    install_niri() {
-        echo "安装 Niri 配置..."
-        if [ -d "$NIRI_DIR" ]; then
-            BK="$NIRI_DIR.bak.$(date +%Y%m%d-%H%M%S)"
-            cp -r "$NIRI_DIR" "$BK"
-            echo "已备份原配置到 $BK"
-        fi
-        mkdir -p "$NIRI_DIR"
-        cp -r /usr/share/niri-config/* "$NIRI_DIR"
-        echo "已安装镜像内置配置"
-        niri msg action load-config-file 2>/dev/null || true
     }
     backup_niri() {
         echo "备份 Niri 配置..."
@@ -95,17 +69,9 @@ setup-niri ACTION="":
     if [[ "$OPTION" == "help" ]]; then
         echo "Usage: ujust setup-niri <option>"
         echo "  <option>: Specify the quick option to skip the prompt"
-        echo "  Use 'status' to print the current status token"
-        echo "  Use 'install' to install the built-in niri config"
         echo "  Use 'backup' to backup the current niri config"
         echo "  Use 'restore' to restore a niri config backup"
         echo "  Use 'clear' to clear all niri config backups"
-        exit 0
-    elif [[ "$OPTION" == "status" ]]; then
-        get_status_token
-        exit $?
-    elif [[ "$OPTION" == "install" ]]; then
-        install_niri
         exit 0
     elif [[ "$OPTION" == "backup" ]]; then
         backup_niri
@@ -117,14 +83,9 @@ setup-niri ACTION="":
         clear_niri
         exit 0
     elif [[ -z "$OPTION" ]]; then
-        current_status=$(get_current_status)
         echo "${bold}Niri 配置${normal}"
-        echo "当前状态: $current_status"
-        OPTION=$(ugum choose "安装" "备份" "还原" "清除备份" "退出不更改")
+        OPTION=$(ugum choose "备份" "还原" "清除备份" "退出不更改")
         case "$OPTION" in
-            "安装")
-                install_niri
-                ;;
             "备份")
                 backup_niri
                 ;;

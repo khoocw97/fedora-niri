@@ -1,0 +1,29 @@
+layout {
+    gaps 10
+    background-color "transparent"
+    center-focused-column "never"
+    // first windows center
+    always-center-single-column
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 5
+    }
+
+    border {
+        off
+        width 5
+    }
+
+    shadow {
+        on
+        softness 10
+        spread 4
+        offset x=0 y=0
+    }
+}

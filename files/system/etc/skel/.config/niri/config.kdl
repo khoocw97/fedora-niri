@@ -1,0 +1,11 @@
+// settings files
+include "./cfg/animations.kdl"
+include "./cfg/autostart.kdl"
+include "./cfg/keybinds.kdl"
+include "./cfg/input.kdl"
+include "./cfg/outputs.kdl"
+include "./cfg/colour.kdl"
+include "./cfg/layout.kdl"
+include "./cfg/rules.kdl"
+include "./cfg/cursor.kdl"
+include "./cfg/misc.kdl"
