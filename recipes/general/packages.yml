@@ -57,6 +57,8 @@ modules:
       - tealdeer
       - fastfetch
       - duf
+      - brightnessctl
+      - playerctl
 
 - type: dnf # change to fcitx
   repos:
