@@ -14,8 +14,8 @@ fix-steam-proton ACTION="":
         echo "However your games, music, saves, controller profiles and compatibilitytools/custom-proton will not be touched."
         echo "To cancel and abort this operation press CTRL+C now, to continue press ENTER."
         read -r i
-        systemctl --user stop niri-steam.service 2>/dev/null || true
-        killall -9 niri-steam 2>/dev/null || true
+        systemctl --user stop steam-wrapper.service 2>/dev/null || true
+        killall -9 steam-wrapper 2>/dev/null || true
         killall -9 steam 2>/dev/null || true
         sleep 1
         echo "Resetting Steam to a freshly installed state."
