@@ -21,7 +21,7 @@ modules:
       ID: fedora
       ID_LIKE: fedora
 
-  - from-file: general/niri.yml
+  - from-file: general/wm.yml
   - from-file: general/packages.yml
   - from-file: general/gaming.yml  # all gaming stuff
   - from-file: general/flatpak.yml

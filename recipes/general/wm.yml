@@ -5,9 +5,13 @@ repos:
     - khoocw97/software
 install:
   packages:
+    # niri wm
     - niri
     - xwayland-satellite
     - noctalia
+    # umbriel wm
+    - umbriel
+    - xdg-desktop-portal-umbriel
 
   exclude:
     - alacritty

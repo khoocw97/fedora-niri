@@ -18,7 +18,6 @@ modules:
       - sddm-themes
       - gnome-keyring-pam # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
-      - qt6ct
       - xdg-user-dirs # xdg user dirs
       - power-profiles-daemon
       - fuzzel
@@ -34,13 +33,13 @@ modules:
       - swayimg # image viewer
       # for testing
       - vm-curator # vm tui
-      - umbriel
-      - xdg-desktop-portal-umbriel
+
   remove:
     packages:
       - firefox
       - firefox-langpacks
       - nvtop
+      - htop
 
 - type: dnf # CLI tools
   repos:

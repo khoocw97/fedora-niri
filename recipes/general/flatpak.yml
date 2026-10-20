@@ -26,5 +26,3 @@ configurations:
       - com.github.xournalpp.xournalpp
       - org.onlyoffice.desktopeditors
       - org.localsend.localsend_app
-
-  #- scope: user
