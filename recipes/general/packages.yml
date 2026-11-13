@@ -16,7 +16,9 @@ modules:
       - qt6-qtdeclarative
       - qt6-qtquickcontrols2
       - sddm-themes
-      - gnome-keyring-pam # unlock keyring
+      - oo7-daemon # Fedora 45 default secrets service (replaces gnome-keyring)
+      - oo7-portal
+      - pam_oo7 # unlock keyring
       - adw-gtk3-theme # unofficial GTK3 port of libadwaita
       - xdg-user-dirs # xdg user dirs
       - power-profiles-daemon
@@ -36,6 +38,8 @@ modules:
 
   remove:
     packages:
+      - gnome-keyring
+      - gnome-keyring-pam
       - firefox
       - firefox-langpacks
       - nvtop
