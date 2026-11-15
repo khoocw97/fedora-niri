@@ -31,6 +31,7 @@ modules:
         - getty@tty2.service
     user:
       enabled:
+        - oo7-daemon
         - mega-cmd-server
         - polkit-agent
         - udiskie
