@@ -18,7 +18,7 @@ chmod +x 05-rpmostree.install 50-dracut.install
 popd
 
 # pull kernel
-skopeo copy --retry-times 3 docker://ghcr.io/ublue-os/akmods:ogc-44 dir:/tmp/akmods
+skopeo copy --retry-times 3 "docker://ghcr.io/ublue-os/akmods:ogc-$(rpm -E %fedora)" dir:/tmp/akmods
 AKMODS_TGZ=$(jq -r '.layers[].digest' /tmp/akmods/manifest.json | cut -d: -f2)
 tar -xzf "/tmp/akmods/${AKMODS_TGZ}" -C /tmp
 
