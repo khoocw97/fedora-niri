@@ -33,8 +33,6 @@ modules:
       - kdeconnectd
       - udiskie
       - swayimg # image viewer
-      # for testing
-      - vm-curator # vm tui
 
   remove:
     packages:
@@ -101,10 +99,14 @@ modules:
       - swtpm-tools
       - edk2-ovmf
       - dnsmasq
+      - vm-curator
 
 - type: dnf # font
   repos:
     cleanup: true
+    copr:
+      - khoocw97/software
+
   install:
     install-weak-deps: false
     packages:
@@ -122,3 +124,6 @@ modules:
       - langpacks-core-zh_TW
       - langpacks-fonts-zh_CN
       - langpacks-fonts-zh_TW
+      # from copr
+      - lxgw-fonts
+      - maple-mono-fonts

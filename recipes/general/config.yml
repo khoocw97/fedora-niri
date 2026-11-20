@@ -9,7 +9,6 @@ modules:
       - install-megacmd
       - install-extest
       - setup-firewall
-      - install-fonts
       - install-papirus
       - setup-plymouth-theme
 
