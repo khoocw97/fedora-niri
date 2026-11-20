@@ -6,7 +6,6 @@ modules:
 
   - type: script
     scripts:
-      - setup-rime-build
       - install-megacmd
       - install-extest
       - setup-firewall
