@@ -109,10 +109,6 @@ modules:
       - google-noto-sans-cjk-vf-fonts
       - fira-code-fonts
       - glibc-all-langpacks
-      - langpacks-zh_CN
-      - langpacks-zh_TW
-      - langpacks-core-zh_CN
-      - langpacks-core-zh_TW
       - langpacks-fonts-zh_CN
       - langpacks-fonts-zh_TW
       # from copr
