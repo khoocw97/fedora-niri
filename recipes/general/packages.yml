@@ -1,5 +1,5 @@
 modules:
-- type: dnf # personal
+- type: dnf
   repos:
     cleanup: true
     copr:
@@ -11,6 +11,7 @@ modules:
 
   install:
     packages:
+      # personal
       - starship
       - sddm # login manager
       - qt6-qtdeclarative
@@ -33,21 +34,7 @@ modules:
       - kdeconnectd
       - udiskie
       - swayimg # image viewer
-
-  remove:
-    packages:
-      - gnome-keyring
-      - gnome-keyring-pam
-      - firefox
-      - firefox-langpacks
-      - nvtop
-      - htop
-
-- type: dnf # CLI tools
-  repos:
-    cleanup: true
-  install:
-    packages:
+      # CLI tools
       - ripgrep
       - fd-find
       - chezmoi
@@ -60,12 +47,7 @@ modules:
       - gum
       - brightnessctl
       - playerctl
-
-- type: dnf # change to fcitx
-  repos:
-    cleanup: true
-  install:
-    packages:
+      # change to fcitx
       - fcitx5
       - fcitx5-rime
       - librime-lua
@@ -73,8 +55,44 @@ modules:
       - fcitx5-gtk
       - fcitx5-qt
       - fcitx5-configtool
+      # virtualization
+      - libvirt
+      - qemu-kvm
+      - swtpm
+      - swtpm-tools
+      - edk2-ovmf
+      - dnsmasq
+      - vm-curator
+      # font
+      - install-weak-deps: false
+        packages:
+          - default-fonts-core-emoji
+          - default-fonts
+          - default-fonts-cjk-sans
+          - google-noto-color-emoji-fonts
+          - google-noto-emoji-fonts
+          - google-noto-sans-cjk-vf-fonts
+          - fira-code-fonts
+          - glibc-all-langpacks
+          - langpacks-zh_CN
+          - langpacks-zh_TW
+          - langpacks-core-zh_CN
+          - langpacks-core-zh_TW
+          - langpacks-fonts-zh_CN
+          - langpacks-fonts-zh_TW
+          # from copr
+          - lxgw-fonts
+          - maple-mono-fonts
+
   remove:
+    auto-remove: false # only drop listed packages, never dependency auto-removal
     packages:
+      - gnome-keyring
+      - gnome-keyring-pam
+      - firefox
+      - firefox-langpacks
+      - nvtop
+      - htop
       - ibus
       - ibus-anthy
       - ibus-anthy-python
@@ -88,43 +106,3 @@ modules:
       - ibus-setup
       - ibus-typing-booster
       - python3-ibus
-
-- type: dnf # virtualization
-  repos:
-    cleanup: true
-  install:
-    packages:
-      - libvirt
-      - qemu-kvm
-      - swtpm
-      - swtpm-tools
-      - edk2-ovmf
-      - dnsmasq
-      - vm-curator
-
-- type: dnf # font
-  repos:
-    cleanup: true
-    copr:
-      - khoocw97/software
-
-  install:
-    install-weak-deps: false
-    packages:
-      - default-fonts-core-emoji
-      - default-fonts
-      - default-fonts-cjk-sans
-      - google-noto-color-emoji-fonts
-      - google-noto-emoji-fonts
-      - google-noto-sans-cjk-vf-fonts
-      - fira-code-fonts
-      - glibc-all-langpacks
-      - langpacks-zh_CN
-      - langpacks-zh_TW
-      - langpacks-core-zh_CN
-      - langpacks-core-zh_TW
-      - langpacks-fonts-zh_CN
-      - langpacks-fonts-zh_TW
-      # from copr
-      - lxgw-fonts
-      - maple-mono-fonts
