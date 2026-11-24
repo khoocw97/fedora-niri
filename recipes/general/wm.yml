@@ -8,7 +8,8 @@ install:
     # niri wm
     - niri
     - xwayland-satellite
-    - noctalia
+    - noctalia-git
+    - luciole
     # umbriel wm
     - umbriel
     - xdg-desktop-portal-umbriel
