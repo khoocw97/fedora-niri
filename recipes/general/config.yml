@@ -31,7 +31,6 @@ modules:
       enabled:
         - oo7-daemon
         - mega-cmd-server
-        - polkit-agent
         - udiskie
 
   - type: justfiles
