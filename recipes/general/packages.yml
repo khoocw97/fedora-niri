@@ -28,7 +28,6 @@ modules:
       - sunshine
       - kitty
       - yazi
-      - nemo
       - kdeconnectd
       - udiskie
       - swayimg # image viewer

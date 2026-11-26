@@ -12,7 +12,6 @@ configurations:
       - com.protonvpn.www
 
       - org.mozilla.firefox
-      - com.google.Chrome
       - io.github.diegopvlk.Cine # video player
 
       # obs
